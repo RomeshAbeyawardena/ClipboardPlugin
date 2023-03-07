@@ -6,11 +6,16 @@
 JetBrains Rider IDE
 - Latest version of SourceTree
 
-## Deployment
+## Deployment (recommended for non-MS Windows environment)
 - Checkout out `master` branch
 - Publish using the `dotnet` CLI or an IDE such as Visual Studio 
 or JetBrains Rider (recommended) to an easily navigable 
 directory
+
+## MS Windows enviroments only (Windows 7, 10, 11)
+Download latest release from releases section
+
+## Installation
 - Open SourceTree
 - Navigate to Tools > Options
 - Custom Actions > Add/Edit
