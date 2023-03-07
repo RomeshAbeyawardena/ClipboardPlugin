@@ -6,7 +6,11 @@ namespace ClipboardPlugin;
 public partial class Program
 {
     private static readonly ConfigurationBuilder cb = new();
-    private static readonly Dictionary<string, string> mappings = new() { { "-t", "Text" }, { "--text", "Text" } };
+    private static readonly Dictionary<string, string> mappings = new() {
+        { "-h", "Help" },
+        { "-t", "Text" }, 
+        { "--text", "Text" },
+    };
     
     private static void WriteColouredText(string message, ConsoleColor consoleColor, params object[] args)
     {

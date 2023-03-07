@@ -8,5 +8,7 @@ public record CommandLineArguments
     {
         configuration.Bind(this);
     }
+
+    public bool? Help { get; set; }
     public string? Text { get; set; }
 }
