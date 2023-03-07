@@ -14,10 +14,10 @@ directory
 - Open SourceTree
 - Navigate to Tools > Options
 - Custom Actions > Add/Edit
-- Create action > specify published exe path in 
+- Create/update action > specify published exe path in 
 'Script to run' field
 Set 'parameters' field to --text $variable
-- Change $variable to a variable SourceTree variable
+- Change $variable to a SourceTree variable
 - Save and close option dialog and the new action should
 be available and ready to run.
 ## Usage
