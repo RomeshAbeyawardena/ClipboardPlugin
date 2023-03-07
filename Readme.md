@@ -21,7 +21,7 @@ Download latest release from releases section
 - Custom Actions > Add/Edit
 - Create/update action > specify published exe path in 
 'Script to run' field
-Set 'parameters' field to --text $variable
+Set 'parameters' field to `--text $variable`
 - Change $variable to a SourceTree variable
 - Save and close option dialog and the new action should
 be available and ready to run.
