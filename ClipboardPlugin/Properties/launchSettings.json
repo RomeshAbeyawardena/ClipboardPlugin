@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ClipboardPlugin": {
+      "commandName": "Project",
+      //"commandLineArgs": "--text \"Hello world!\""
+    }
+  }
+}
