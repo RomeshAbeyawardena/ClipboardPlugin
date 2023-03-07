@@ -1,17 +1,18 @@
-﻿// See https://aka.ms/new-console-template for more information
-namespace ClipboardPlugin;
+﻿namespace ClipboardPlugin;
 
 public partial class Program
 { 
     public async static Task CopyText(CommandLineArguments commandLineArguments)
     {
         WriteDebug("{0}", commandLineArguments);
-
-        if (!string.IsNullOrWhiteSpace(commandLineArguments!.Text))
+        var currentClipboard = await TextCopy.ClipboardService.GetTextAsync();
+        if (!string.IsNullOrWhiteSpace(commandLineArguments!.Text)
+            && (string.IsNullOrWhiteSpace(currentClipboard) || !currentClipboard.Equals(commandLineArguments.Text)))
         {
             await TextCopy.ClipboardService.SetTextAsync(commandLineArguments.Text);
         }
         else
-            WriteError("Aborted: No text to copy");
+            WriteError("Aborted: No text to copy or content already copied to clipboard.");
+        
     }
 }
