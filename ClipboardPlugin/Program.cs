@@ -2,13 +2,22 @@
 
 public partial class Program
 { 
-    public async static Task CopyText(CommandLineArguments commandLineArguments)
+    private static bool DisplayHelp(CommandLineArguments commandLineArguments)
     {
         if (commandLineArguments.Help.HasValue && commandLineArguments.Help.Value)
         {
-            WriteDebug("Help");
+            Console.WriteLine("Clipboard Plugin: Copies provided text to the clipboard" +
+                "\r\n\tUsage: ClipboardPlugin.exe [-t|--text] \"[Text to copy to clipboard]\"" +
+                "\r\n Displays this help text" +
+                "\r\n\tHelp Usage: ClipboardPlugin.exe [-?|--help]");
+            return true;
         }
 
+        return false;
+    }
+
+    public async static Task CopyText(CommandLineArguments commandLineArguments)
+    {
         WriteDebug("{0}", commandLineArguments);
         var currentClipboard = await TextCopy.ClipboardService.GetTextAsync();
         if (!string.IsNullOrWhiteSpace(commandLineArguments!.Text)

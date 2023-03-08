@@ -7,7 +7,8 @@ public partial class Program
 {
     private static readonly ConfigurationBuilder cb = new();
     private static readonly Dictionary<string, string> mappings = new() {
-        { "-h", "Help" },
+        { "-?", "Help" },
+        { "--help", "Help" },
         { "-t", "Text" }, 
         { "--text", "Text" },
     };
@@ -41,7 +42,12 @@ public partial class Program
     {
         var configuration = cb.Add(new CommandLineConfigurationSource() { Args = args, SwitchMappings = mappings }).Build();
         var commandLineArguments = GetCommandLineArguments(configuration);
-        await CopyText(commandLineArguments);
+
+        if (!DisplayHelp(commandLineArguments))
+        {
+            await CopyText(commandLineArguments);
+        }
+
         return 0;
     }
 }
