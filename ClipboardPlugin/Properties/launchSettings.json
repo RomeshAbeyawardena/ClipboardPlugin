@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin": {
       "commandName": "Project",
-      "commandLineArgs": "--text \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam sem fringilla ut morbi tincidunt augue interdum velit. Urna id volutpat lacus laoreet non curabitur. Erat imperdiet sed euismod nisi porta lorem. In fermentum posuere urna nec tincidunt praesent semper. Nunc mi ipsum faucibus vitae. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. Mauris ultrices eros in cursus turpis massa tincidunt dui ut. Maecenas pharetra convallis posuere morbi leo urna molestie. Aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh. In hendrerit gravida rutrum quisque non tellus orci ac. Vulputate enim nulla aliquet porttitor lacus luctus. Euismod elementum nisi quis eleifend. Vitae elementum curabitur vitae nunc sed velit dignissim. Aliquam ut porttitor leo a. Suspendisse faucibus interdum posuere lorem ipsum dolor. Mi in nulla posuere sollicitudin.\" -h True"
+      "commandLineArgs": "-s \"/\" -i 2 --text \"Test/Test2/Test3.txt\""
     }
   }
 }
