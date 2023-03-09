@@ -27,4 +27,7 @@ Set 'parameters' field to `--text $variable`
 be available and ready to run.
 ## Usage
 
-`ClipboardPlugin --text "Text to be copied to the clipboard`
+`Clipboard Plugin: Copies provided text to the clipboard:`
+`        Usage: ClipboardPlugin.exe [-s|--split-string] [splitCharacterOrString] [i] [0 based index (-1-99+) -1 get last index] [-t|--text] "[Text to copy to clipboard]"`
+ `Displays this help text:`
+`        Help Usage: ClipboardPlugin.exe [-?|--help] True`
