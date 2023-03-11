@@ -3,7 +3,7 @@
     "ClipboardPlugin": {
       "commandName": "Project",
       //"commandLineArgs": "-s \"/\" -i 2 --text \"Test/Test2/Test3.txt\"",
-      "commandLineArgs": "-? True"
+      "commandLineArgs": "-v True"
     }
   }
 }
