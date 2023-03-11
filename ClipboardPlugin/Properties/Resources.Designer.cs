@@ -61,6 +61,24 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aborted: No text to copy..
+        /// </summary>
+        internal static string ErrorMessage_ContentIsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ErrorMessage.ContentIsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aborted: No text to copy or content already copied to clipboard..
+        /// </summary>
+        internal static string ErrorMessage_ContentIsNullOrEmptyOrAlreadyCopied {
+            get {
+                return ResourceManager.GetString("ErrorMessage.ContentIsNullOrEmptyOrAlreadyCopied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clipboard Plugin: Copies provided text to the clipboard:
         ///                Usage: ClipboardPlugin.exe [-s|--split-string] [splitCharacterOrString] [i] [0 based index (-1-99+) -1 get last index] [-t|--text] &quot;[Text to copy to clipboard]
         ///                Displays this help text:

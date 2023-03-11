@@ -37,13 +37,13 @@ public partial class Program
                 else
                     textToCopy = string.Join(",", splitString);
             }
-            if(!string.IsNullOrWhiteSpace(textToCopy) && !textToCopy.Equals(currentClipboard))
+            if (!string.IsNullOrWhiteSpace(textToCopy) && !textToCopy.Equals(currentClipboard))
                 await TextCopy.ClipboardService.SetTextAsync(textToCopy);
             else
-                WriteError("Aborted: No text to copy or content already copied to clipboard.");
+                WriteError(Properties.Resources.ErrorMessage_ContentIsNullOrEmptyOrAlreadyCopied);
         }
         else
-            WriteError("Aborted: No text to copy.");
+            WriteError(Properties.Resources.ErrorMessage_ContentIsNullOrEmpty);
         
     }
 }
