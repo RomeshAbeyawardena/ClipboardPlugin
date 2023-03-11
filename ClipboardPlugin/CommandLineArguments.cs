@@ -9,6 +9,7 @@ public record CommandLineArguments
         configuration.Bind(this);
     }
 
+    
     public int? Index { get; set; }
     public string? SplitString { get; set; }
     public bool? Help { get; set; }

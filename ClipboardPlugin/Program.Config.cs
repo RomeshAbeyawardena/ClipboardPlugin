@@ -6,16 +6,7 @@ namespace ClipboardPlugin;
 public partial class Program
 {
     private static readonly ConfigurationBuilder cb = new();
-    private static readonly Dictionary<string, string> mappings = new() {
-        { "-?", "Help" },
-        { "--help", "Help" },
-        { "-i", "Index" },
-        { "-t", "Text" }, 
-        { "--text", "Text" },
-        { "-s", "SplitString"},
-        { "--split-string", "SplitString"}
-    };
-    
+    private static ApplicationSettings? applicationSettings;
     private static void WriteColouredText(string message, ConsoleColor consoleColor, params object[] args)
     {
         var original = Console.ForegroundColor;
@@ -36,6 +27,11 @@ public partial class Program
 #endif
     }
 
+    private static ApplicationSettings GetApplicationSettings(IConfiguration configuration)
+    {
+        return new ApplicationSettings(configuration);
+    }
+
     private static CommandLineArguments GetCommandLineArguments(IConfiguration configuration)
     {
         return new CommandLineArguments(configuration);
@@ -43,8 +39,11 @@ public partial class Program
 
     public async static Task<int> Main(string[] args)
     {
-        var configuration = cb.Add(new CommandLineConfigurationSource() { Args = args, SwitchMappings = mappings }).Build();
-        var commandLineArguments = GetCommandLineArguments(configuration);
+        var appSettingsConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        applicationSettings = GetApplicationSettings(appSettingsConfig);
+        WriteDebug("{0}",applicationSettings);
+        var consoleConfiguration = cb.Add(new CommandLineConfigurationSource() { Args = args, SwitchMappings = applicationSettings.SwitchingProfile }).Build();
+        var commandLineArguments = GetCommandLineArguments(consoleConfiguration);
 
         if (!DisplayHelp(commandLineArguments))
         {
