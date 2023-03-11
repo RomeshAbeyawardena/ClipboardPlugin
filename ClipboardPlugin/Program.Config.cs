@@ -37,13 +37,18 @@ public partial class Program
         return new CommandLineArguments(configuration);
     }
 
-    public async static Task<int> Main(string[] args)
+    private static CommandLineArguments SetupEnvironment(string[] args)
     {
         var appSettingsConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         applicationSettings = GetApplicationSettings(appSettingsConfig);
-        WriteDebug("{0}",applicationSettings);
+        WriteDebug("{0}", applicationSettings);
         var consoleConfiguration = cb.Add(new CommandLineConfigurationSource() { Args = args, SwitchMappings = applicationSettings.SwitchingProfile }).Build();
-        var commandLineArguments = GetCommandLineArguments(consoleConfiguration);
+        return GetCommandLineArguments(consoleConfiguration);
+    }
+
+    public async static Task<int> Main(string[] args)
+    {
+        var commandLineArguments = SetupEnvironment(args);
 
         if (!DisplayVersion(commandLineArguments) && !DisplayHelp(commandLineArguments))
         {
