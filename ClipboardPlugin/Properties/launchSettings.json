@@ -2,8 +2,8 @@
   "profiles": {
     "ClipboardPlugin": {
       "commandName": "Project",
-      //"commandLineArgs": "-s \"/\" -i 2 --text \"Test/Test2/Test3.txt\"",
-      "commandLineArgs": "-v True"
+      "commandLineArgs": "-s \"/\" -i 2 --text \"Test/Test2/Test3.txt\""
+      //"commandLineArgs": "-v True"
     }
   }
 }
