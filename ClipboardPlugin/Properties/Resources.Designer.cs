@@ -79,7 +79,7 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clipboard Plugin: Copies provided text to the clipboard:
+        ///   Looks up a localized string similar to Clipboard Plugin v{version}: Copies provided text to the clipboard:
         ///                Usage: ClipboardPlugin.exe [-s|--split-string] [splitCharacterOrString] [i] [0 based index (-1-99+) -1 get last index] [-t|--text] &quot;[Text to copy to clipboard]
         ///                Displays this help text:
         ///                Help Usage: ClipboardPlugin.exe [-?|--help] True.
@@ -87,6 +87,15 @@ namespace ClipboardPlugin.Properties {
         internal static string HelpText {
             get {
                 return ResourceManager.GetString("HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clipboard Plugin v{version}.
+        /// </summary>
+        internal static string HelpText_Version {
+            get {
+                return ResourceManager.GetString("HelpText.Version", resourceCulture);
             }
         }
     }

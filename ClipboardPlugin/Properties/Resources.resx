@@ -124,9 +124,12 @@
     <value>Aborted: No text to copy or content already copied to clipboard.</value>
   </data>
   <data name="HelpText" xml:space="preserve">
-    <value>Clipboard Plugin: Copies provided text to the clipboard:
+    <value>Clipboard Plugin v{version}: Copies provided text to the clipboard:
                 Usage: ClipboardPlugin.exe [-s|--split-string] [splitCharacterOrString] [i] [0 based index (-1-99+) -1 get last index] [-t|--text] "[Text to copy to clipboard]
                 Displays this help text:
                 Help Usage: ClipboardPlugin.exe [-?|--help] True</value>
+  </data>
+  <data name="HelpText.Version" xml:space="preserve">
+    <value>Clipboard Plugin v{version}</value>
   </data>
 </root>

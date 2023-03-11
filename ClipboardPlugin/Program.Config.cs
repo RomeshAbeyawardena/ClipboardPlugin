@@ -45,7 +45,7 @@ public partial class Program
         var consoleConfiguration = cb.Add(new CommandLineConfigurationSource() { Args = args, SwitchMappings = applicationSettings.SwitchingProfile }).Build();
         var commandLineArguments = GetCommandLineArguments(consoleConfiguration);
 
-        if (!DisplayHelp(commandLineArguments))
+        if (!DisplayVersion(commandLineArguments) || !DisplayHelp(commandLineArguments))
         {
             await CopyText(commandLineArguments);
         }

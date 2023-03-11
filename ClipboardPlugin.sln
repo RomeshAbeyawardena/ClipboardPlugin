@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClipboardPlugin", "Clipboar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{839A2D48-1471-4411-9672-252C6150DEE3}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.build.props = Directory.build.props
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject

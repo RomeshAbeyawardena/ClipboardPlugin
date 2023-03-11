@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Romesh Abeyawardena</Authors>
+    <Company>DNI</Company>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <FileVersion>1.0.1.2</FileVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.1.2</Version>
+    <VersionSuffix>DEV</VersionSuffix>
+  </PropertyGroup>
+</Project>
