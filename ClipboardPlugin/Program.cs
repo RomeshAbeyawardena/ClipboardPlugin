@@ -8,10 +8,7 @@ public partial class Program
     {
         if (commandLineArguments.Help.HasValue && commandLineArguments.Help.Value)
         {
-            Console.WriteLine("Clipboard Plugin: Copies provided text to the clipboard:" +
-                "\r\n\tUsage: ClipboardPlugin.exe [-s|--split-string] [splitCharacterOrString] [i] [0 based index (-1-99+) -1 get last index] [-t|--text] \"[Text to copy to clipboard]\"" +
-                "\r\n Displays this help text:" +
-                "\r\n\tHelp Usage: ClipboardPlugin.exe [-?|--help] True");
+            Console.WriteLine(Properties.Resources.HelpText);
             return true;
         }
         
