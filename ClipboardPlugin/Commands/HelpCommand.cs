@@ -22,26 +22,23 @@ public class HelpCommand : BaseCommand
         : base(serviceProvider, "help", Resources.HelpText_Command_Help)
     {
         this.versionService = versionService;
-        //this.commandFactory = commandFactory;
     }
 
     public override async Task Execute(CommandLineArguments arguments, string? command = null)
     {
         if (!string.IsNullOrWhiteSpace(arguments.HelpContext))
         {
-           var foundCommand = commandFactory.Commands.FirstOrDefault(c=> c.Name.Equals(arguments.HelpContext, StringComparison.InvariantCultureIgnoreCase));
+           var foundCommand = commandFactory!.Commands.FirstOrDefault(c=> c.Name.Equals(arguments.HelpContext, StringComparison.InvariantCultureIgnoreCase));
 
             if(foundCommand != null && !string.IsNullOrWhiteSpace(foundCommand.HelpText))
             {
                 Console.WriteLine("{0}\r\n{1}", 
-                    Resources.HelpText_Version.Replace("{version}", 
-                    versionService.GetVersion().ToString()), foundCommand.HelpText);
+                    versionService.ReplaceVersion(Resources.HelpText_Version), foundCommand.HelpText);
                 return;
             }
         }
 
-        Console.WriteLine(Resources.HelpText.Replace("{version}", 
-            versionService.GetVersion()!.ToString()));
+        Console.WriteLine(versionService.ReplaceVersion(Resources.HelpText));
         await Task.CompletedTask;
     }
 }

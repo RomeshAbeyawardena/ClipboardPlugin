@@ -11,4 +11,14 @@ public class VersionService : IVersionService
     {
         return Assembly.GetExecutingAssembly().GetName().Version;
     }
+
+    public string ReplaceVersion(string value, string? searchValue)
+    {
+        if (string.IsNullOrWhiteSpace(searchValue))
+        {
+            searchValue = "{version}";
+        }
+
+        return value.Replace(searchValue, GetVersion()!.ToString());
+    }
 }
