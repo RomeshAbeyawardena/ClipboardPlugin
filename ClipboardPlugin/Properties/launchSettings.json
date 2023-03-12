@@ -2,8 +2,8 @@
   "profiles": {
     "ClipboardPlugin": {
       "commandName": "Project",
-      //"commandLineArgs": "-s \"/\" -i -1 --text \"Test/Test2/Test3.txt\" --output C:\\Dev\\output.txt"
-      "commandLineArgs": "-? True -hc copy"
+      "commandLineArgs": "--text \"Banana curry\" --output C:\\Dev\\output1.txt"
+      //"commandLineArgs": "-? True -hc output"
     }
   }
 }
