@@ -1,8 +1,10 @@
 ﻿using ClipboardPlugin.Contracts;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Defaults;
 
-internal class CommandFactory : ICommandFactory
+[Register]
+public class CommandFactory : ICommandFactory
 {
     private readonly IEnumerable<ICommand> commands;
 
@@ -10,6 +12,8 @@ internal class CommandFactory : ICommandFactory
     {
         this.commands = commands;
     }
+
+    public IEnumerable<ICommand> Commands => commands;
 
     public async Task<IEnumerable<ICommand>> GetCommands(CommandLineArguments arguments,
         string? commandName = null)

@@ -1,8 +1,10 @@
 ﻿using ClipboardPlugin.Contracts;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Defaults;
 
-internal class ConsoleService : IConsoleService
+[Register]
+public class ConsoleService : IConsoleService
 {
     private static void WriteColouredText(string message, ConsoleColor consoleColor, params object[] args)
     {

@@ -22,7 +22,7 @@ namespace ClipboardPlugin.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -87,6 +87,42 @@ namespace ClipboardPlugin.Properties {
         internal static string HelpText {
             get {
                 return ResourceManager.GetString("HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copies text to clipboard.
+        /// </summary>
+        internal static string HelpText_Command_CopyToClipboard {
+            get {
+                return ResourceManager.GetString("HelpText.Command.CopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copies text to file.
+        /// </summary>
+        internal static string HelpText_Command_CopyToFile {
+            get {
+                return ResourceManager.GetString("HelpText.Command.CopyToFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays this help file.
+        /// </summary>
+        internal static string HelpText_Command_Help {
+            get {
+                return ResourceManager.GetString("HelpText.Command.Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays the version information for this application instance.
+        /// </summary>
+        internal static string HelpText_Command_Version {
+            get {
+                return ResourceManager.GetString("HelpText.Command.Version", resourceCulture);
             }
         }
         

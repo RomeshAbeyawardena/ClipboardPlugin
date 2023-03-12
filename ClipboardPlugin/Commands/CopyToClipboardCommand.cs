@@ -1,31 +1,31 @@
 ﻿using ClipboardPlugin.Contracts;
 using ClipboardPlugin.Extensions;
+using ClipboardPlugin.Properties;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
 
-internal class CopyToClipboardCommand : ICommand
+[Register]
+public class CopyToClipboardCommand : BaseCommand
 {
     private readonly IConsoleService consoleService;
 
-    public CopyToClipboardCommand(IConsoleService consoleService)
-    {
-        Name = "text";
-        this.consoleService = consoleService;
-    }
-
-    public string Name { get; }
-    public string? HelpText { get; }
-
-    public async Task<bool> CanExecute(CommandLineArguments arguments)
+    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
         await Task.CompletedTask;
-        return !arguments.Help.HasValue 
+        return !arguments.Help.HasValue
             && !arguments.Version.HasValue
             && string.IsNullOrWhiteSpace(arguments.Output)
             && !string.IsNullOrWhiteSpace(arguments.Text);
     }
 
-    public async Task Execute(CommandLineArguments arguments)
+    public CopyToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
+        : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard)
+    {
+        this.consoleService = consoleService;
+    }
+
+    public override async Task Execute(CommandLineArguments arguments, string? commandName = null)
     {
         await Task.CompletedTask;
         consoleService.WriteDebug("{0}", arguments);
@@ -37,7 +37,7 @@ internal class CopyToClipboardCommand : ICommand
             if (!string.IsNullOrWhiteSpace(textToCopy) && !textToCopy.Equals(currentClipboard))
                 await TextCopy.ClipboardService.SetTextAsync(textToCopy);
             else
-                consoleService.WriteError(Properties.Resources.ErrorMessage_ContentIsNullOrEmptyOrAlreadyCopied);
+                consoleService.WriteError(Resources.ErrorMessage_ContentIsNullOrEmptyOrAlreadyCopied);
         }
         else
             consoleService.WriteError(Properties.Resources.ErrorMessage_ContentIsNullOrEmpty);

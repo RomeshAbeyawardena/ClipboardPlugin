@@ -1,9 +1,9 @@
 ﻿namespace ClipboardPlugin.Contracts;
 
-internal interface ICommand
+public interface ICommand
 {
     string Name { get; }
     string? HelpText { get; }
-    Task<bool> CanExecute(CommandLineArguments arguments);
-    Task Execute(CommandLineArguments arguments);
+    Task<bool> CanExecute(CommandLineArguments arguments, string? command = null);
+    Task Execute(CommandLineArguments arguments, string? command = null);
 }

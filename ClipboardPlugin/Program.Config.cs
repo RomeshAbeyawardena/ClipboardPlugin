@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration.CommandLine;
 using Microsoft.Extensions.Configuration;
-using System.Net.NetworkInformation;
-using ClipboardPlugin.Defaults;
-using ClipboardPlugin.Contracts;
-using ClipboardPlugin.Commands;
-using ClipboardPlugin.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using RST.Extensions;
+using System.Reflection;
+using RST.DependencyInjection.Extensions;
 
 namespace ClipboardPlugin;
 
@@ -12,9 +11,8 @@ public partial class Program
 {
     private static readonly ConfigurationBuilder cb = new();
     private static ApplicationSettings? applicationSettings;
-    private static CommandFactory? factory;
-    private static ConsoleService consoleService;
-    private static VersionService versionService;
+    
+    private static IServiceProvider? serviceProvider;
 
     private static ApplicationSettings GetApplicationSettings(IConfiguration configuration)
     {
@@ -37,5 +35,16 @@ public partial class Program
         }).Build();
 
         return GetCommandLineArguments(consoleConfiguration);
+    }
+
+    private static void AddServices(string[] args)
+    {
+        var services = new ServiceCollection()
+            .AddSingleton(SetupEnvironment(args));
+        services
+            .AddServicesWithRegisterAttribute(opt => { opt.ConfigureCoreServices = true; },
+        Assembly.GetCallingAssembly());
+
+        serviceProvider = services.BuildServiceProvider();
     }
 }

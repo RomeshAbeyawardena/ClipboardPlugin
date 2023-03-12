@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using RST.Attributes;
+using Microsoft.Extensions.Configuration;
 
 namespace ClipboardPlugin;
 
+[Register]
 public record ApplicationSettings
 {
 	public ApplicationSettings(IConfiguration configuration)

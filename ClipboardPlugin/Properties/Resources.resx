@@ -129,6 +129,18 @@
                 Displays this help text:
                 Help Usage: ClipboardPlugin.exe [-?|--help] True</value>
   </data>
+  <data name="HelpText.Command.CopyToClipboard" xml:space="preserve">
+    <value>Copies text to clipboard</value>
+  </data>
+  <data name="HelpText.Command.CopyToFile" xml:space="preserve">
+    <value>Copies text to file</value>
+  </data>
+  <data name="HelpText.Command.Help" xml:space="preserve">
+    <value>Displays this help file</value>
+  </data>
+  <data name="HelpText.Command.Version" xml:space="preserve">
+    <value>Displays the version information for this application instance</value>
+  </data>
   <data name="HelpText.Version" xml:space="preserve">
     <value>Clipboard Plugin v{version}</value>
   </data>

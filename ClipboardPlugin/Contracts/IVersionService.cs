@@ -1,6 +1,6 @@
 ﻿namespace ClipboardPlugin.Contracts;
 
-internal interface IVersionService
+public interface IVersionService
 {
     Version? GetVersion();
 }

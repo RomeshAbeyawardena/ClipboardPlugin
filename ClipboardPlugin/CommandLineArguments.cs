@@ -9,7 +9,7 @@ public record CommandLineArguments
         configuration.Bind(this);
     }
 
-
+    public string? HelpContext { get; set; }
     public bool? Help { get; set; }
     public int? Index { get; set; }
     public string? Output { get; set; }

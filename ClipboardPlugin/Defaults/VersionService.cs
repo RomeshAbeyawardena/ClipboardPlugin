@@ -1,9 +1,11 @@
 ﻿using ClipboardPlugin.Contracts;
+using RST.Attributes;
 using System.Reflection;
 
 namespace ClipboardPlugin.Defaults;
 
-internal class VersionService : IVersionService
+[Register]
+public class VersionService : IVersionService
 {
     public Version? GetVersion()
     {

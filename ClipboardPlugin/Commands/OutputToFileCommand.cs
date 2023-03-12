@@ -1,22 +1,16 @@
 ﻿using ClipboardPlugin.Contracts;
 using ClipboardPlugin.Extensions;
+using ClipboardPlugin.Properties;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
 
-internal class OutputToFileCommand : ICommand
+[Register]
+public class OutputToFileCommand : BaseCommand
 {
     private readonly IConsoleService consoleService;
 
-    public OutputToFileCommand(IConsoleService consoleService)
-    {
-        Name = "output";
-        this.consoleService = consoleService;
-    }
-
-    public string Name { get; }
-    public string? HelpText { get; }
-
-    public async Task<bool> CanExecute(CommandLineArguments arguments)
+    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)
     {
         await Task.CompletedTask;
         return !arguments.Help.HasValue
@@ -25,7 +19,13 @@ internal class OutputToFileCommand : ICommand
             && !string.IsNullOrWhiteSpace(arguments.Text);
     }
 
-    public async Task Execute(CommandLineArguments arguments)
+    public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
+        : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile)
+    {
+        this.consoleService = consoleService;
+    }
+
+    public override async Task Execute(CommandLineArguments arguments, string? commandName = null)
     {
         var textToCopy = arguments.HandleTextProcessing();
         try
