@@ -1,4 +1,5 @@
 ﻿using ClipboardPlugin.Contracts;
+using ClipboardPlugin.Extensions;
 
 namespace ClipboardPlugin.Commands;
 
@@ -20,6 +21,7 @@ internal class CopyToClipboardCommand : ICommand
         await Task.CompletedTask;
         return !arguments.Help.HasValue 
             && !arguments.Version.HasValue
+            && string.IsNullOrWhiteSpace(arguments.Output)
             && !string.IsNullOrWhiteSpace(arguments.Text);
     }
 
@@ -30,22 +32,8 @@ internal class CopyToClipboardCommand : ICommand
         var currentClipboard = await TextCopy.ClipboardService.GetTextAsync();
         if (!string.IsNullOrWhiteSpace(arguments!.Text))
         {
-            var textToCopy = arguments.Text;
-            if (!string.IsNullOrEmpty(arguments.SplitString))
-            {
-                var splitString = arguments.Text.Split(arguments.SplitString);
-                if (arguments.Index.HasValue)
-                {
-                    if (arguments.Index != -1)
-                    {
-                        textToCopy = splitString.ElementAtOrDefault(arguments.Index.Value);
-                    }
-                    else
-                        textToCopy = splitString.LastOrDefault();
-                }
-                else
-                    textToCopy = string.Join(",", splitString);
-            }
+            var textToCopy = arguments.HandleTextProcessing();
+
             if (!string.IsNullOrWhiteSpace(textToCopy) && !textToCopy.Equals(currentClipboard))
                 await TextCopy.ClipboardService.SetTextAsync(textToCopy);
             else

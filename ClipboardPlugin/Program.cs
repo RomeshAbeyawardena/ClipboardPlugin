@@ -13,6 +13,7 @@ public partial class Program
         factory = new CommandFactory(new ICommand[] { new CopyToClipboardCommand(
             consoleService = new ConsoleService()),
             new HelpCommand(versionService = new VersionService()),
+            new OutputToFileCommand(consoleService),
             new VersionCommand(versionService)
         });
 
