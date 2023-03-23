@@ -1,8 +1,18 @@
-﻿namespace ClipboardPlugin.Extensions;
+﻿using ClipboardPlugin.Extensions;
+using RST.Attributes;
 
-internal static class CommandLineArgumentsExtensions
+namespace ClipboardPlugin.Commands;
+
+[Register]
+public class ProcessCommand : BaseCommand
 {
-    internal static string? HandleTextProcessing(this CommandLineArguments arguments)
+    public ProcessCommand(IServiceProvider serviceProvider)
+        : base(serviceProvider, "process", string.Empty, 50)
+    {
+
+    }
+
+    public override Task Execute(CommandLineArguments arguments, string? command = null)
     {
         var textToCopy = arguments.Text;
         if (!string.IsNullOrEmpty(arguments.Text) && !string.IsNullOrEmpty(arguments.SplitString))
@@ -20,7 +30,13 @@ internal static class CommandLineArgumentsExtensions
             else
                 textToCopy = string.Join(",", splitString);
         }
+        
+        arguments.Text = textToCopy;
+        return Task.CompletedTask;
+    }
 
-        return textToCopy;
+    protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
+    {
+        return this.CalculateCanExecute(arguments, arguments.Process);
     }
 }

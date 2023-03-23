@@ -28,7 +28,7 @@ public class CopyToClipboardCommand : BaseCommand
         var currentClipboard = await TextCopy.ClipboardService.GetTextAsync();
         if (!string.IsNullOrWhiteSpace(arguments!.Text))
         {
-            var textToCopy = arguments.HandleTextProcessing();
+            var textToCopy = arguments.Text;
 
             if (!string.IsNullOrWhiteSpace(textToCopy) && !textToCopy.Equals(currentClipboard))
                 await TextCopy.ClipboardService.SetTextAsync(textToCopy);

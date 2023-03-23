@@ -22,4 +22,5 @@ public record CommandLineArguments
     public string? PrependerValue { get; set; }
     public string? AppenderValue { get; set; }
     public bool Async { get; set; }
+    public bool Process { get; set; } = true;
 }

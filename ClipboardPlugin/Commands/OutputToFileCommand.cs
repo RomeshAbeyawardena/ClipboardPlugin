@@ -24,7 +24,7 @@ public class OutputToFileCommand : BaseCommand
 
     public override async Task Execute(CommandLineArguments arguments, string? commandName = null)
     {
-        var textToCopy = arguments.HandleTextProcessing();
+        var textToCopy = arguments.Text;
         try
         {
             if (!string.IsNullOrWhiteSpace(textToCopy) 
