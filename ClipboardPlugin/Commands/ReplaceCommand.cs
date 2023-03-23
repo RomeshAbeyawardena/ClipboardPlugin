@@ -1,11 +1,13 @@
-﻿using RST.Attributes;
+﻿using ClipboardPlugin.Extensions;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
 
 [Register]
 public class ReplaceCommand : BaseCommand
 {
-    public ReplaceCommand(IServiceProvider serviceProvider, string name, string? helpText = null) : base(serviceProvider, name, helpText)
+    public ReplaceCommand(IServiceProvider serviceProvider) 
+        : base(serviceProvider, "replace", string.Empty)
     {
     }
 
@@ -21,10 +23,10 @@ public class ReplaceCommand : BaseCommand
         return Task.CompletedTask;
     }
 
-    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
+    protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        await Task.CompletedTask;
-        return !string.IsNullOrWhiteSpace(arguments.SearchString)
-            && !string.IsNullOrWhiteSpace(arguments.ReplacementString);
+        return this.CalculateCanExecute(arguments,
+            !string.IsNullOrWhiteSpace(arguments.SearchString)
+            && !string.IsNullOrWhiteSpace(arguments.ReplacementString));
     }
 }

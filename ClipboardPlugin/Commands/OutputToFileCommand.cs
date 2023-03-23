@@ -10,13 +10,10 @@ public class OutputToFileCommand : BaseCommand
 {
     private readonly IConsoleService consoleService;
 
-    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)
+    protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)
     {
-        await Task.CompletedTask;
-        return !arguments.Help.HasValue
-            && !arguments.Version.HasValue
-            && !string.IsNullOrWhiteSpace(arguments.Output)
-            && !string.IsNullOrWhiteSpace(arguments.Text);
+        return this.CalculateCanExecute(arguments,
+            !string.IsNullOrWhiteSpace(arguments.Output));
     }
 
     public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)

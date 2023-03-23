@@ -1,11 +1,13 @@
-﻿using RST.Attributes;
+﻿using ClipboardPlugin.Extensions;
+using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
 
 [Register]
 public class InputFromFileCommand : BaseCommand
 {
-    public InputFromFileCommand(IServiceProvider serviceProvider, string name, string? helpText = null) : base(serviceProvider, name, helpText, int.MinValue)
+    public InputFromFileCommand(IServiceProvider serviceProvider) 
+        : base(serviceProvider, "input", string.Empty, int.MinValue)
     {
     }
 
@@ -18,9 +20,8 @@ public class InputFromFileCommand : BaseCommand
         }
     }
 
-    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
+    protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        await Task.CompletedTask;
-        return !string.IsNullOrWhiteSpace(arguments.Input);
+        return this.CalculateCanExecute(arguments, !string.IsNullOrWhiteSpace(arguments.Input));
     }
 }

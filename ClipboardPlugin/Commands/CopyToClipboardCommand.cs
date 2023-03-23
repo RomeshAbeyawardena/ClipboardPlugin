@@ -10,13 +10,9 @@ public class CopyToClipboardCommand : BaseCommand
 {
     private readonly IConsoleService consoleService;
 
-    protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
+    protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        await Task.CompletedTask;
-        return !arguments.Help.HasValue
-            && !arguments.Version.HasValue
-            && string.IsNullOrWhiteSpace(arguments.Output)
-            && !string.IsNullOrWhiteSpace(arguments.Text);
+        return this.CalculateCanExecute(arguments, string.IsNullOrWhiteSpace(arguments.Output));
     }
 
     public CopyToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
