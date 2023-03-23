@@ -11,9 +11,13 @@ public record CommandLineArguments
 
     public string? HelpContext { get; set; }
     public bool? Help { get; set; }
+    public string? Input { get; set; }
     public int? Index { get; set; }
     public string? Output { get; set; }
     public string? SplitString { get; set; }
     public string? Text { get; set; }
     public bool? Version { get; set; }
+    public string? SearchString { get; set; }
+    public string? ReplacementString { get; set; }
+    public bool Async { get; set; }
 }

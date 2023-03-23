@@ -8,7 +8,7 @@ public partial class Program
     public async static Task<int> Main(string[] args)
     {
         AddServices(args);
-        var startup = serviceProvider.GetService<IStartup>();
+        var startup = serviceProvider!.GetRequiredService<IStartup>();
         await startup.RunAsync();
         return 0;
     }

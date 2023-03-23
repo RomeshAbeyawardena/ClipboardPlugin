@@ -20,7 +20,7 @@ public class CopyToClipboardCommand : BaseCommand
     }
 
     public CopyToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
-        : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard)
+        : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard, int.MaxValue)
     {
         this.consoleService = consoleService;
     }

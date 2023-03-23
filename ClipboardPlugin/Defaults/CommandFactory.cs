@@ -28,6 +28,6 @@ public class CommandFactory : ICommandFactory
             }
         }
 
-        return commandList;
+        return commandList.OrderBy(c => c.Order);
     }
 }

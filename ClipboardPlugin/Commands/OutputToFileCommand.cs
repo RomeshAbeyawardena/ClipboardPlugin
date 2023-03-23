@@ -20,7 +20,7 @@ public class OutputToFileCommand : BaseCommand
     }
 
     public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
-        : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile)
+        : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile, int.MaxValue)
     {
         this.consoleService = consoleService;
     }

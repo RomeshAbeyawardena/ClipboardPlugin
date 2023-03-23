@@ -1,21 +1,22 @@
 ﻿using ClipboardPlugin.Contracts;
-using Microsoft.Extensions.DependencyInjection;
 using RST.DependencyInjection.Extensions;
 using RST.DependencyInjection.Extensions.Attributes;
-using RST.Extensions;
 
 namespace ClipboardPlugin.Commands;
 
 public abstract class BaseCommand : EnableInjectionBase<InjectAttribute>, ICommand
 {
     protected abstract Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null);
-    public BaseCommand(IServiceProvider serviceProvider, string name, string? helpText = null)
+    public BaseCommand(IServiceProvider serviceProvider, string name, string? helpText = null,
+        int? order = null)
         : base(serviceProvider)
     {
         Name = name;
         HelpText = helpText;
+        Order = order.GetValueOrDefault();
     }
 
+    public int Order { get; }
     public string Name { get; }
     public string? HelpText { get; }
 
