@@ -7,7 +7,7 @@ namespace ClipboardPlugin.Commands;
 public class InputFromFileCommand : CommandBase
 {
     public InputFromFileCommand(IServiceProvider serviceProvider) 
-        : base(serviceProvider, "input", string.Empty, int.MinValue)
+        : base(serviceProvider, "input", string.Empty, CommandOrder.INPUT_COMMAND)
     {
     }
 

@@ -19,8 +19,8 @@ public record CommandLineArguments
     public bool? Version { get; set; }
     public string? SearchString { get; set; }
     public string? ReplacementString { get; set; }
-    public string? PrependerValue { get; set; }
-    public string? AppenderValue { get; set; }
+    public string? PrependValue { get; set; }
+    public string? AppendValue { get; set; }
     public bool Async { get; set; }
     public bool Process { get; set; } = true;
 }

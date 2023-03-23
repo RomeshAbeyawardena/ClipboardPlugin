@@ -7,7 +7,7 @@ namespace ClipboardPlugin.Commands;
 public class ProcessCommand : CommandBase
 {
     public ProcessCommand(IServiceProvider serviceProvider)
-        : base(serviceProvider, "process", string.Empty, 50)
+        : base(serviceProvider, "process", string.Empty, CommandOrder.PROCESS_MEDIUM_PRIORITY_COMMAND)
     {
 
     }

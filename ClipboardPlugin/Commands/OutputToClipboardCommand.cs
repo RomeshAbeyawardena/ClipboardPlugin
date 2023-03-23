@@ -18,7 +18,7 @@ public class OutputToClipboardCommand : CommandBase
     }
 
     public OutputToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
-        : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard, int.MaxValue)
+        : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard, CommandOrder.OUTPUT_COMMAND)
     {
         this.consoleService = consoleService;
     }

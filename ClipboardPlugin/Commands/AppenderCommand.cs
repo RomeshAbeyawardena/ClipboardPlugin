@@ -5,20 +5,20 @@ namespace ClipboardPlugin.Commands;
 public class AppenderCommand : CommandBase
 {
     public AppenderCommand(IServiceProvider serviceProvider)
-        : base(serviceProvider, "append", string.Empty, 50)
+        : base(serviceProvider, "append", string.Empty, CommandOrder.PROCESS_LOWER_PRIORITY_COMMAND)
     {
 
     }
 
     public override Task Execute(CommandLineArguments arguments, string? command = null)
     {
-        if (!string.IsNullOrWhiteSpace(arguments.PrependerValue))
+        if (!string.IsNullOrWhiteSpace(arguments.PrependValue))
         {
-            arguments.Text = $"{arguments.PrependerValue}{arguments.Text}";
+            arguments.Text = $"{arguments.PrependValue}{arguments.Text}";
         }
-        if (!string.IsNullOrWhiteSpace(arguments.AppenderValue))
+        if (!string.IsNullOrWhiteSpace(arguments.AppendValue))
         {
-            arguments.Text = $"{arguments.Text}{arguments.AppenderValue}";
+            arguments.Text = $"{arguments.Text}{arguments.AppendValue}";
         }
 
         return Task.CompletedTask;
@@ -27,7 +27,8 @@ public class AppenderCommand : CommandBase
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {   
         return this.CalculateCanExecute(arguments, 
-            !string.IsNullOrWhiteSpace(arguments.PrependerValue) ||
-            !string.IsNullOrWhiteSpace(arguments.AppenderValue));
+            !string.IsNullOrWhiteSpace(arguments.PrependValue) ||
+            !string.IsNullOrWhiteSpace(arguments.AppendValue),
+            string.IsNullOrWhiteSpace(arguments.Input));
     }
 }

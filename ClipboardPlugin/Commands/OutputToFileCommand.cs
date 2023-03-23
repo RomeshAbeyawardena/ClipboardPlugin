@@ -18,7 +18,7 @@ public class OutputToFileCommand : CommandBase
     }
 
     public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
-        : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile, int.MaxValue)
+        : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile, CommandOrder.OUTPUT_COMMAND)
     {
         this.consoleService = consoleService;
     }

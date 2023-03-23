@@ -7,7 +7,7 @@ namespace ClipboardPlugin.Commands;
 public class ReplaceCommand : CommandBase
 {
     public ReplaceCommand(IServiceProvider serviceProvider) 
-        : base(serviceProvider, "replace", string.Empty)
+        : base(serviceProvider, "replace", string.Empty, CommandOrder.PROCESS_LOW_PRIORITY_COMMAND)
     {
     }
 
