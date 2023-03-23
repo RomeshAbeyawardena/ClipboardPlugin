@@ -5,7 +5,7 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class VersionCommand : BaseCommand
+public class VersionCommand : CommandBase
 {
     private readonly IVersionService versionService;
     protected override async Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)

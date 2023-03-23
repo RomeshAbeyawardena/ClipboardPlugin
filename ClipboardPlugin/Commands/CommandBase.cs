@@ -4,10 +4,10 @@ using RST.DependencyInjection.Extensions.Attributes;
 
 namespace ClipboardPlugin.Commands;
 
-public abstract class BaseCommand : EnableInjectionBase<InjectAttribute>, ICommand
+public abstract class CommandBase : EnableInjectionBase<InjectAttribute>, ICommand
 {
     protected abstract Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null);
-    public BaseCommand(IServiceProvider serviceProvider, string name, string? helpText = null,
+    public CommandBase(IServiceProvider serviceProvider, string name, string? helpText = null,
         int? order = null)
         : base(serviceProvider)
     {

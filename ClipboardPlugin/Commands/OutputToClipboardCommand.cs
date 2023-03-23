@@ -6,16 +6,18 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class CopyToClipboardCommand : BaseCommand
+public class OutputToClipboardCommand : CommandBase
 {
     private readonly IConsoleService consoleService;
 
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        return this.CalculateCanExecute(arguments, string.IsNullOrWhiteSpace(arguments.Output));
+        return this.CalculateCanExecute(arguments, 
+            string.IsNullOrWhiteSpace(arguments.Output),
+            !string.IsNullOrWhiteSpace(arguments.Input));
     }
 
-    public CopyToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
+    public OutputToClipboardCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
         : base(serviceProvider, "copy", Resources.HelpText_Command_CopyToClipboard, int.MaxValue)
     {
         this.consoleService = consoleService;

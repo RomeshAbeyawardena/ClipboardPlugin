@@ -4,7 +4,7 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class ReplaceCommand : BaseCommand
+public class ReplaceCommand : CommandBase
 {
     public ReplaceCommand(IServiceProvider serviceProvider) 
         : base(serviceProvider, "replace", string.Empty)

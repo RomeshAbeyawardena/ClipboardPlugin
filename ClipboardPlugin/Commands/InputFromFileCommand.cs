@@ -4,7 +4,7 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class InputFromFileCommand : BaseCommand
+public class InputFromFileCommand : CommandBase
 {
     public InputFromFileCommand(IServiceProvider serviceProvider) 
         : base(serviceProvider, "input", string.Empty, int.MinValue)
@@ -22,6 +22,7 @@ public class InputFromFileCommand : BaseCommand
 
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        return this.CalculateCanExecute(arguments, !string.IsNullOrWhiteSpace(arguments.Input));
+        return this.CalculateCanExecute(arguments, !string.IsNullOrWhiteSpace(arguments.Input),
+            false);
     }
 }

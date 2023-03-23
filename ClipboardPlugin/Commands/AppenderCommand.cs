@@ -2,7 +2,7 @@
 
 namespace ClipboardPlugin.Commands;
 
-public class AppenderCommand : BaseCommand
+public class AppenderCommand : CommandBase
 {
     public AppenderCommand(IServiceProvider serviceProvider)
         : base(serviceProvider, "append", string.Empty, 50)

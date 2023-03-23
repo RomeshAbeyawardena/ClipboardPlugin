@@ -6,14 +6,15 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class OutputToFileCommand : BaseCommand
+public class OutputToFileCommand : CommandBase
 {
     private readonly IConsoleService consoleService;
 
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)
     {
         return this.CalculateCanExecute(arguments,
-            !string.IsNullOrWhiteSpace(arguments.Output));
+            !string.IsNullOrWhiteSpace(arguments.Output),
+            !string.IsNullOrWhiteSpace(arguments.Input));
     }
 
     public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)

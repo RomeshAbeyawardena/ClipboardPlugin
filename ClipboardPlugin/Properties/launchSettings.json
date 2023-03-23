@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin": {
       "commandName": "Project",
-      "commandLineArgs": "--text \"Banana curry\" --output C:\\Dev\\output1.txt"
+      "commandLineArgs": "--text \"Apple,pop-tart,curry\" -s , -i -1 --output C:\\Dev\\output1.txt"
       //"commandLineArgs": "-? True -hc output"
     }
   }

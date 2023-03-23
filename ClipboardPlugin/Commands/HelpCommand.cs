@@ -6,7 +6,7 @@ using RST.DependencyInjection.Extensions.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class HelpCommand : BaseCommand
+public class HelpCommand : CommandBase
 {
     private readonly IVersionService versionService;
     [Inject]

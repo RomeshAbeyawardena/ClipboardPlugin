@@ -4,7 +4,7 @@ using RST.Attributes;
 namespace ClipboardPlugin.Commands;
 
 [Register]
-public class ProcessCommand : BaseCommand
+public class ProcessCommand : CommandBase
 {
     public ProcessCommand(IServiceProvider serviceProvider)
         : base(serviceProvider, "process", string.Empty, 50)
