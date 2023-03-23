@@ -8,7 +8,7 @@ public static class BaseCommandExtensions
     {
         return Task.FromResult(!arguments.Help.HasValue
             && !arguments.Version.HasValue
-            && (requiresTextArgument && !string.IsNullOrWhiteSpace(arguments.Text))
+            && (!requiresTextArgument || !string.IsNullOrWhiteSpace(arguments.Text))
             && canExecute);
     }
 }

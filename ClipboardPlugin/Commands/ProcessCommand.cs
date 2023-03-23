@@ -37,6 +37,7 @@ public class ProcessCommand : CommandBase
 
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
-        return this.CalculateCanExecute(arguments, arguments.Process);
+        return this.CalculateCanExecute(arguments, arguments.Process, 
+            string.IsNullOrWhiteSpace(arguments.Input));
     }
 }

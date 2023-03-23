@@ -14,7 +14,7 @@ public class OutputToFileCommand : CommandBase
     {
         return this.CalculateCanExecute(arguments,
             !string.IsNullOrWhiteSpace(arguments.Output),
-            !string.IsNullOrWhiteSpace(arguments.Input));
+            string.IsNullOrWhiteSpace(arguments.Input));
     }
 
     public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
