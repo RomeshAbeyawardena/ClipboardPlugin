@@ -54,6 +54,7 @@ public class CommandFactoryTests
             Input = "Meow",
             Output = "Woof"
         });
+
         Assert.That(commands, Contains.Item(iFF));
         Assert.That(commands, Contains.Item(pc));
         Assert.That(commands, Contains.Item(oTF));
@@ -64,5 +65,17 @@ public class CommandFactoryTests
         });
 
         Assert.That(commands, Contains.Item(pc));
+        Assert.That(commands, Contains.Item(oTC));
+
+        commands = await commandFactory.GetCommands(new CommandLineArguments(null)
+        {
+            Text = "Woof",
+            PrependValue = "Dog =",
+            AppendValue = "!= Cat"
+        });
+
+        Assert.That(commands, Contains.Item(ac));
+        Assert.That(commands, Contains.Item(pc));
+        Assert.That(commands, Contains.Item(oTC));
     }
 }
