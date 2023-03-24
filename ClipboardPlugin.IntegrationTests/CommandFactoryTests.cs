@@ -54,16 +54,20 @@ public class CommandFactoryTests
             Input = "Meow",
             Output = "Woof"
         });
-
-        Assert.That(commands, Contains.Item(iFF));
-        Assert.That(commands, Contains.Item(pc));
-        Assert.That(commands, Contains.Item(oTF));
-
+        Assert.Multiple(() =>
+        {
+            Assert.That(commands.Count(), Is.EqualTo(3));
+            Assert.That(commands, Contains.Item(iFF));
+            Assert.That(commands, Contains.Item(pc));
+            Assert.That(commands, Contains.Item(oTF));
+        });
+       
         commands = await commandFactory.GetCommands(new CommandLineArguments(null)
         {
             Text = "Woof"
         });
 
+        Assert.That(commands.Count(), Is.EqualTo(2));
         Assert.That(commands, Contains.Item(pc));
         Assert.That(commands, Contains.Item(oTC));
 
@@ -74,7 +78,20 @@ public class CommandFactoryTests
             AppendValue = "!= Cat"
         });
 
+        Assert.That(commands.Count(), Is.EqualTo(3));
         Assert.That(commands, Contains.Item(ac));
+        Assert.That(commands, Contains.Item(pc));
+        Assert.That(commands, Contains.Item(oTC));
+
+        commands = await commandFactory.GetCommands(new CommandLineArguments(null)
+        {
+            Text = "Woof",
+            SearchString = "Dog =",
+            ReplacementString = "!= Cat"
+        });
+
+        Assert.That(commands.Count(), Is.EqualTo(3));
+        Assert.That(commands, Contains.Item(rc));
         Assert.That(commands, Contains.Item(pc));
         Assert.That(commands, Contains.Item(oTC));
     }

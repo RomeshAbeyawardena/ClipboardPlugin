@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using RST.Extensions;
 using System.Reflection;
 using RST.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
+using ClipboardPlugin.Defaults;
 
 namespace ClipboardPlugin;
 
@@ -44,6 +47,8 @@ public partial class Program
         services
             .AddServicesWithRegisterAttribute(opt => { opt.ConfigureCoreServices = true; },
         Assembly.GetCallingAssembly());
+        
+        services.TryAdd(ServiceDescriptor.Describe(typeof(IFileProvider), typeof(SystemFileProvider), ServiceLifetime.Singleton));
 
         serviceProvider = services.BuildServiceProvider();
     }
