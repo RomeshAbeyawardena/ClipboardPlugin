@@ -4,7 +4,7 @@ using RST.Attributes;
 namespace ClipboardPlugin.Defaults;
 
 [Register]
-public class DefaultFileWriter : IFileWriter
+public class SystemFileWriter : IFileWriter
 {
     public void Write(string fileName, string content)
     {
