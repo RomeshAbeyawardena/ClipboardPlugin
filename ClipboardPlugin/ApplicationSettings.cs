@@ -14,7 +14,7 @@ public record ApplicationSettings
 
     public Dictionary<string, string> SwitchingProfile { get
         {
-            var grouping = Mappings.GroupBy(s => s.Value);//.Select(s => KeyValuePair.Create(s.Key, s.ToArray()));
+            var grouping = Mappings.GroupBy(s => s.Value);
             var switchingProfiles = new Dictionary<string, string>();
             foreach (var group in grouping)
             {
