@@ -1,6 +1,7 @@
 ﻿using ClipboardPlugin.Contracts;
 using ClipboardPlugin.Extensions;
 using ClipboardPlugin.Properties;
+using Microsoft.Extensions.FileProviders;
 using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
@@ -9,7 +10,7 @@ namespace ClipboardPlugin.Commands;
 public class OutputToFileCommand : CommandBase
 {
     private readonly IConsoleService consoleService;
-
+    private readonly IFileWriter fileWriter;
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? commandName = null)
     {
         return this.CalculateCanExecute(arguments,
@@ -17,10 +18,12 @@ public class OutputToFileCommand : CommandBase
             string.IsNullOrWhiteSpace(arguments.Input));
     }
 
-    public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider)
+    public OutputToFileCommand(IConsoleService consoleService, IServiceProvider serviceProvider,
+        IFileWriter fileWriter)
         : base(serviceProvider, "output", Resources.HelpText_Command_CopyToFile, CommandOrder.OUTPUT_COMMAND)
     {
         this.consoleService = consoleService;
+        this.fileWriter = fileWriter;
     }
 
     public override async Task Execute(CommandLineArguments arguments, string? commandName = null)
@@ -31,7 +34,7 @@ public class OutputToFileCommand : CommandBase
             if (!string.IsNullOrWhiteSpace(textToCopy) 
                 && !string.IsNullOrWhiteSpace(arguments.Output))
             {
-                await File.WriteAllTextAsync(arguments.Output, textToCopy);
+                await fileWriter.WriteAsync(arguments.Output, textToCopy);
                 Console.WriteLine($"Saved to file: \"{arguments.Output}\"");
             }
             else

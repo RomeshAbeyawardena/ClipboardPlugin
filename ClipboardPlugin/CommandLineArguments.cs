@@ -4,9 +4,9 @@ namespace ClipboardPlugin;
 
 public record CommandLineArguments
 {
-    public CommandLineArguments(IConfiguration configuration)
+    public CommandLineArguments(IConfiguration? configuration = null)
     {
-        configuration.Bind(this);
+        configuration?.Bind(this);
     }
 
     public string? HelpContext { get; set; }

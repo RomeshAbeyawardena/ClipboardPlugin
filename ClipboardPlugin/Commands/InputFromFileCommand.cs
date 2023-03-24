@@ -1,4 +1,5 @@
 ﻿using ClipboardPlugin.Extensions;
+using Microsoft.Extensions.FileProviders;
 using RST.Attributes;
 
 namespace ClipboardPlugin.Commands;
@@ -6,17 +7,28 @@ namespace ClipboardPlugin.Commands;
 [Register]
 public class InputFromFileCommand : CommandBase
 {
-    public InputFromFileCommand(IServiceProvider serviceProvider) 
+    private readonly IFileProvider fileProvider;
+
+    public InputFromFileCommand(IServiceProvider serviceProvider, IFileProvider fileProvider) 
         : base(serviceProvider, "input", string.Empty, CommandOrder.INPUT_COMMAND)
     {
+        this.fileProvider = fileProvider;
     }
 
     public override async Task Execute(CommandLineArguments arguments, string? command = null)
     {
-        if (!string.IsNullOrWhiteSpace(arguments.Input) 
-            && File.Exists(arguments.Input))
+        if (string.IsNullOrWhiteSpace(arguments.Input))
         {
-            arguments.Text = await File.ReadAllTextAsync(arguments.Input);
+            await Task.CompletedTask;
+        }
+
+        var fileInfo = fileProvider.GetFileInfo(arguments.Input);
+        
+        if (fileInfo.Exists)
+        {
+            using var stream = fileInfo.CreateReadStream();
+            using var streamReader = new StreamReader(stream);
+            arguments.Text = await streamReader.ReadToEndAsync();
         }
     }
 
