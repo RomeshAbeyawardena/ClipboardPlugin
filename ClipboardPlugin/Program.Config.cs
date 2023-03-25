@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration.CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RST.Extensions;
 using System.Reflection;
 using RST.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using ClipboardPlugin.Defaults;
+using Microsoft.Extensions.Logging;
 
 namespace ClipboardPlugin;
 
@@ -27,10 +27,10 @@ public partial class Program
         return new CommandLineArguments(configuration);
     }
 
-    private static CommandLineArguments SetupEnvironment(string[] args)
+    private static CommandLineArguments SetupEnvironment(string[] args, out IConfiguration appConfiguration)
     {
-        var appSettingsConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        applicationSettings = GetApplicationSettings(appSettingsConfig);
+        appConfiguration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        applicationSettings = GetApplicationSettings(appConfiguration);
         
         var consoleConfiguration = cb.Add(new CommandLineConfigurationSource() { 
             Args = args, 
@@ -42,8 +42,15 @@ public partial class Program
 
     private static void AddServices(string[] args)
     {
+        IConfiguration appConfiguration;
+
         var services = new ServiceCollection()
-            .AddSingleton(SetupEnvironment(args));
+            .AddSingleton(SetupEnvironment(args, out appConfiguration))
+            .AddLogging(c => c
+                .AddConfiguration(appConfiguration)
+                .AddConsole())
+            .AddSingleton<ILogger>(s => s.GetRequiredService<ILogger<Program>>());
+
         services
             .AddServicesWithRegisterAttribute(opt => { opt.ConfigureCoreServices = true; },
         Assembly.GetCallingAssembly());
