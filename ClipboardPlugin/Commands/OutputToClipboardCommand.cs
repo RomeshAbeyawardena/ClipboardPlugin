@@ -9,7 +9,7 @@ namespace ClipboardPlugin.Commands;
 public class OutputToClipboardCommand : CommandBase
 {
     private readonly IConsoleService consoleService;
-
+    
     protected override Task<bool> OnCanExecute(CommandLineArguments arguments, string? command = null)
     {
         return this.CalculateCanExecute(arguments, 
