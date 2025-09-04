@@ -1,6 +1,6 @@
 ﻿namespace ClipboardPlugin;
 
-public record ClipboardArguments
+public record ClipboardArguments : IHelpContextArgument
 {
     public ClipboardArguments(IDictionary<string, object> arguments)
     {

@@ -9,7 +9,7 @@ public class ClipboardArgumentsCommandParser(IEnumerable<ICommand<ClipboardArgum
 
     public async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        foreach (var command in commands)
+        foreach (var command in commands.OrderBy(x => x.Priority))
         {
             if (await command.CanExecuteAsync(arguments, cancellationToken))
             {

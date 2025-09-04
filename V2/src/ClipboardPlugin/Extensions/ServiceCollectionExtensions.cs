@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ClipboardPlugin.Commands;
+namespace ClipboardPlugin.Extensions;
 
 public static class ServiceCollectionExtensions
 {

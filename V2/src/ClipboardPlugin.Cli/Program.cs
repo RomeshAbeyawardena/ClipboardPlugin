@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ClipboardPlugin;
-using ClipboardPlugin.Commands;
+using ClipboardPlugin.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

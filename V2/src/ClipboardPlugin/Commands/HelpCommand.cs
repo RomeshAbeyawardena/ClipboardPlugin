@@ -12,7 +12,7 @@ internal class HelpCommand(IIoStream ioStream) : CommandBase<ClipboardArguments>
 
     public override bool CanExecute(ClipboardArguments arguments)
     {
-        return arguments.Help && string.IsNullOrWhiteSpace(arguments.Source) && string.IsNullOrWhiteSpace(arguments.Target);
+        return arguments.Help;
     }
 
     public override async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)

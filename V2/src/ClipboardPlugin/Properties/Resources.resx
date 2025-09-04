@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CopyHelp" xml:space="preserve">
+    <value>Copies a provided value to a specified target
+
+--source|s Text to copy (the provided value)
+--target|t A valid target
+
+Valid targets: clipboard, file.</value>
+  </data>
   <data name="GeneralHelp" xml:space="preserve">
     <value>ClipboardPlugin.Cli.exe</value>
   </data>

@@ -61,6 +61,20 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copies a provided value to a specified target
+        ///
+        ///--source|s Text to copy (the provided value)
+        ///--target|t A valid target
+        ///
+        ///Valid targets: clipboard, file..
+        /// </summary>
+        public static string CopyHelp {
+            get {
+                return ResourceManager.GetString("CopyHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ClipboardPlugin.Cli.exe.
         /// </summary>
         public static string GeneralHelp {
