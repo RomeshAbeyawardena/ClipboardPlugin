@@ -1,5 +1,6 @@
 ﻿using ClipboardPlugin.Actions;
 using ClipboardPlugin.Properties;
+using System.Text.RegularExpressions;
 
 namespace ClipboardPlugin.Commands;
 
@@ -26,7 +27,9 @@ internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, Clipbo
 
         if (!string.IsNullOrWhiteSpace(arguments.Find))
         {
-            arguments.Input = arguments.Input.Replace(arguments.Find, arguments.Replace);
+            arguments.Input = arguments.Regex 
+                ? Regex.Replace(arguments.Input, arguments.Find, arguments.Replace ?? string.Empty)
+                : arguments.Input.Replace(arguments.Find, arguments.Replace);
         }
 
         await ioStream.Out.WriteLineAsync($"Copying {arguments.Input} to {action}");

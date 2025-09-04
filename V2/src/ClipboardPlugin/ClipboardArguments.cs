@@ -64,4 +64,7 @@ public record ClipboardArguments : IHelpContextArgument
 
     [Argument("v")]
     public bool Version { get; set; }
+
+    [Argument("r")]
+    public bool Regex { get; set; }
 }
