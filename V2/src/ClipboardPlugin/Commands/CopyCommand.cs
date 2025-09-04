@@ -17,12 +17,20 @@ internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, Clipbo
 
     public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(arguments.Input);
+
         await ioStream.Out.WriteLineAsync($"{arguments.Input} {arguments.Target}");
 
         if (!Enum.TryParse<CopyAction>(arguments.TargetKey, true, out var action))
         {
             action = CopyAction.Clipboard;
         }
+
+        if (!string.IsNullOrWhiteSpace(arguments.Find))
+        {
+            arguments.Input = arguments.Input.Replace(arguments.Find, arguments.Replace);
+        }
+
 
         await copyActionInvoker.ExecuteAsync(action, arguments, cancellationToken);
         

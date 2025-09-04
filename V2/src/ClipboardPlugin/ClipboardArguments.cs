@@ -50,6 +50,11 @@ public record ClipboardArguments : IHelpContextArgument
         }
     }
 
+    [Argument("f")]
+    public string? Find { get; set; }
+
+    [Argument("h")]
+    public string? Replace { get; set; }
 
     [Argument("i")]
     public string? Input { get; set; }
