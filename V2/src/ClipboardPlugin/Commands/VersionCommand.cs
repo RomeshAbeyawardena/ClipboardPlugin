@@ -1,5 +1,4 @@
-﻿
-using ClipboardPlugin.Properties;
+﻿using ClipboardPlugin.Properties;
 
 namespace ClipboardPlugin.Commands;
 

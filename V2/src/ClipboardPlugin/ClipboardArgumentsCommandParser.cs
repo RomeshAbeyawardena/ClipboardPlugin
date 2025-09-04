@@ -1,4 +1,6 @@
-﻿namespace ClipboardPlugin;
+﻿using ClipboardPlugin.Commands;
+
+namespace ClipboardPlugin;
 
 public class ClipboardArgumentsCommandParser(IEnumerable<ICommand<ClipboardArguments>> commands, ClipboardArguments clipboardArguments) : ICommandParser<ClipboardArguments>
 {

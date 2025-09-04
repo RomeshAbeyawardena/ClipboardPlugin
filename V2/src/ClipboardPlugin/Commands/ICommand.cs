@@ -1,4 +1,4 @@
-﻿namespace ClipboardPlugin;
+﻿namespace ClipboardPlugin.Commands;
 
 public interface ICommand<TArguments>
 {

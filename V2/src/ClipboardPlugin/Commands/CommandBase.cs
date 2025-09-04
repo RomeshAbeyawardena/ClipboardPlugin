@@ -1,4 +1,4 @@
-﻿namespace ClipboardPlugin;
+﻿namespace ClipboardPlugin.Commands;
 
 public abstract class CommandBase<TArguments>(int? priority = null) : ICommand<TArguments>
 {

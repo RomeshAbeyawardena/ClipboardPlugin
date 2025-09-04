@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ClipboardPlugin.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClipboardPlugin.Extensions;
 
@@ -15,6 +16,11 @@ public static class ServiceCollectionExtensions
 
         var res = interfaces.GetGenericTypeDefinition() == targetType;
         return res;
+    }
+
+    public static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        return services.AddSingleton<TextCopy.IClipboard, TextCopy.Clipboard>();
     }
 
     public static IServiceCollection AddCommands(this IServiceCollection services)
