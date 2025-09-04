@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration.CommandLine;
 using Microsoft.Extensions.Configuration;
-using System.Net.NetworkInformation;
 using ClipboardPlugin.Defaults;
-using ClipboardPlugin.Contracts;
-using ClipboardPlugin.Commands;
-using ClipboardPlugin.Extensions;
 
 namespace ClipboardPlugin;
 
@@ -13,8 +9,8 @@ public partial class Program
     private static readonly ConfigurationBuilder cb = new();
     private static ApplicationSettings? applicationSettings;
     private static CommandFactory? factory;
-    private static ConsoleService consoleService;
-    private static VersionService versionService;
+    private static ConsoleService? consoleService;
+    private static VersionService? versionService;
 
     private static ApplicationSettings GetApplicationSettings(IConfiguration configuration)
     {
