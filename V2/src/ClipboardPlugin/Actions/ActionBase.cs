@@ -1,8 +1,9 @@
 ﻿namespace ClipboardPlugin.Actions;
 
-public abstract class ActionBase<TAction> : IAction<TAction>
+public abstract class ActionBase<TAction, TActionSource> : IAction<TAction, TActionSource>
     where TAction : Enum
 {
+    public TActionSource? Source { get; set; }
     public virtual bool CanExecute(TAction action)
     {
         return true;

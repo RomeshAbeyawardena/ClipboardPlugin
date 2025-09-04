@@ -10,8 +10,8 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("t")]
     public string? Target { get; set; }
 
-    [Argument("s")]
-    public string? Source { get; set; }
+    [Argument("i")]
+    public string? Input { get; set; }
 
     [Argument("h", "?")]
     public bool Help { get; set; }

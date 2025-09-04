@@ -3,10 +3,8 @@ using TextCopy;
 
 namespace ClipboardPlugin.Actions;
 
-public class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction>
+public class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction, ClipboardArguments>
 {
-    public ClipboardArguments? Arguments { get; set; }
-
     public override bool CanExecute(CopyAction action)
     {
         return action == CopyAction.Clipboard;
@@ -14,13 +12,13 @@ public class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction>
 
     public override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        if (Arguments is null)
+        if (Source is null)
         {
             throw new NullReferenceException("Arguments property must not be null");
         }
 
-        ArgumentException.ThrowIfNullOrWhiteSpace(Arguments.Source, nameof(Arguments));
+        ArgumentException.ThrowIfNullOrWhiteSpace(Source.Input, nameof(Source));
 
-        await clipboard.SetTextAsync(Arguments.Source, cancellationToken);
+        await clipboard.SetTextAsync(Source.Input, cancellationToken);
     }
 }

@@ -12,6 +12,7 @@ void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     services
         .AddSingleton((s) => new ClipboardArguments(args.ToDictionary()))
         .AddCommands()
+        .AddServices()
         .AddSingleton(s => IoStream.ConsoleStream());
 }
 

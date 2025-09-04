@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "-? --v -s fish -t sea"
+      "commandLineArgs": "-s fish -t sea"
     }
   }
 }
