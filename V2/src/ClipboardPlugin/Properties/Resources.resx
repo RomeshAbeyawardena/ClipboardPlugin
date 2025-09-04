@@ -139,7 +139,7 @@ Usage: {app} -i "Test value to copy" -t Clipboard -f value -h "Text</value>
 -v --version</value>
   </data>
   <data name="VersionInfo" xml:space="preserve">
-    <value>ClipboardPlugin v{version}</value>
+    <value>{app} v{version}</value>
   </data>
   <data name="AdvancedHelp" xml:space="preserve">
     <value>def</value>

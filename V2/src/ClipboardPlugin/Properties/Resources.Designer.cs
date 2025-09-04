@@ -109,7 +109,7 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClipboardPlugin v{version}.
+        ///   Looks up a localized string similar to {app} v{version}.
         /// </summary>
         public static string VersionInfo {
             get {
