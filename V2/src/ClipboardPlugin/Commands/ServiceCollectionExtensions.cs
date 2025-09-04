@@ -4,7 +4,7 @@ namespace ClipboardPlugin.Commands;
 
 public static class ServiceCollectionExtensions
 {
-    private static bool IsOfType(Type type)
+    private static bool IsOfType(this Type type, Type targetType)
     {
         var interfaces = type.GetInterfaces().FirstOrDefault(i => i.IsGenericType);
 
@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
             return false;
         }
 
-        var res = interfaces.GetGenericTypeDefinition() == typeof(ICommand<>);
+        var res = interfaces.GetGenericTypeDefinition() == targetType;
         return res;
     }
 
@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
         return services
             .AddTransient<ICommandParser<ClipboardArguments>, ClipboardArgumentsCommandParser>()
             .Scan(x => x.FromAssemblyOf<ClipboardArguments>()
-                .AddClasses(x => x.Where(IsOfType), false
+                .AddClasses(x => x.Where(x => x.IsOfType(typeof(ICommand<>))), false
                 ).AsImplementedInterfaces());
     }
 }
