@@ -13,7 +13,9 @@ internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider)
         {
             if(command is HelpContextCommandBase<ClipboardArguments> helpContext)
             {
-                await ioStream.Out.WriteAsync(new string('-', Console.BufferWidth));
+                var commandName = Humanizer.CasingExtensions.ApplyCase(command.Name, Humanizer.LetterCasing.Title);
+                await ioStream.Out.WriteLineAsync(new string('-', ioStream.BufferWidth));
+                await ioStream.Out.WriteAsync($"{commandName}: ");
                 await helpContext.RenderContextHelpAsync(null!, cancellationToken);
             }
         }
