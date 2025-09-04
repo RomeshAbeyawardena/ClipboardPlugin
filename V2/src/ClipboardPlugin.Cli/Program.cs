@@ -16,7 +16,7 @@ void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         .AddSingleton(s => IoStream.ConsoleStream());
 }
 
-var host = Host.CreateDefaultBuilder(args)
+using var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration(x => x.AddUserSecrets(typeof(Program).Assembly, true))
     .ConfigureLogging(x => x.AddConsole())
     .ConfigureServices(ConfigureServices)

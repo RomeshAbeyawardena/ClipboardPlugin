@@ -1,12 +1,21 @@
 ﻿using ClipboardPlugin.Properties;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClipboardPlugin.Commands;
 
-internal class HelpCommand(IIoStream ioStream) : CommandBase<ClipboardArguments>
+internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider) : CommandBase<ClipboardArguments>
 {
-    private Task RenderHelp(ClipboardArguments arguments, CancellationToken cancellationToken)
+    private async Task RenderHelp(CancellationToken cancellationToken)
     {
-        return ioStream.Out.WriteLineAsync(Resources.GeneralHelp);
+        var commands = serviceProvider.GetRequiredService<IEnumerable<ICommand<ClipboardArguments>>>();
+        await ioStream.Out.WriteLineAsync(Resources.GeneralHelp);
+        foreach (var command in commands)
+        {
+            if(command is HelpContextCommandBase<ClipboardArguments> helpContext)
+            {
+                await helpContext.RenderContextHelpAsync(null!, cancellationToken);
+            }
+        }
     }
 
     public override bool CanExecute(ClipboardArguments arguments)
@@ -16,6 +25,6 @@ internal class HelpCommand(IIoStream ioStream) : CommandBase<ClipboardArguments>
 
     public override async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await RenderHelp(arguments, cancellationToken);
+        await RenderHelp(cancellationToken);
     }
 }

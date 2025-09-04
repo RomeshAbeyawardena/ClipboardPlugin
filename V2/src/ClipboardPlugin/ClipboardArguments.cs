@@ -59,7 +59,7 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("i")]
     public string? Input { get; set; }
 
-    [Argument("h", "?")]
+    [Argument("?")]
     public bool Help { get; set; }
 
     [Argument("v")]

@@ -30,10 +30,10 @@ public static class ServiceCollectionExtensions
             .AddTransient<ICommandParser<ClipboardArguments>, ClipboardArgumentsCommandParser>()
             .Scan(x => x.FromAssemblyOf<ClipboardArguments>()
                 .AddClasses(x => x.Where(x => x.IsOfType(typeof(ICommand<>))), false
-                ).AsImplementedInterfaces())
+                ).AsImplementedInterfaces().WithTransientLifetime())
             .AddTransient<IActionInvoker<CopyAction, ClipboardArguments>, CopyActionInvoker>()
             .Scan(x => x.FromAssemblyOf<ClipboardArguments>()
                 .AddClasses(x => x.Where(x => x.IsOfType(typeof(IAction<,>))), false
-                ).AsImplementedInterfaces());
+                ).AsImplementedInterfaces().WithTransientLifetime());
     }
 }
