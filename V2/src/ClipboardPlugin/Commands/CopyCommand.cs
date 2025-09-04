@@ -1,16 +1,15 @@
 ﻿
-using ClipboardPlugin.Properties;
-
 namespace ClipboardPlugin.Commands;
 
-internal class VersionCommand(IIoStream ioStream) : CommandBase<ClipboardArguments>
+internal class CopyCommand(IIoStream ioStream) : CommandBase<ClipboardArguments>
 {
     public override bool CanExecute(ClipboardArguments arguments)
     {
-        return arguments.Version;
+        return !string.IsNullOrWhiteSpace(arguments.Source);
     }
+
     public override async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await ioStream.Out.WriteLineAsync(Resources.VersionInfo);
+        await ioStream.Out.WriteLineAsync($"{arguments.Source} {arguments.Target}");
     }
 }
