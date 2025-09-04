@@ -22,5 +22,5 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(ConfigureServices)
     .Build();
 
-var clipboard = host.Services.GetRequiredService <ICommandParser<ClipboardArguments>>();
+var clipboard = host.Services.GetRequiredService<ICommandParser<ClipboardArguments>>();
 await clipboard.ExecuteAsync(CancellationToken.None);

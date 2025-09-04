@@ -10,6 +10,47 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("t")]
     public string? Target { get; set; }
 
+    public string? TargetKey
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Target))
+            {
+                return null;
+            }
+
+            var idx =  Target.IndexOf('|');
+
+            if(idx == -1)
+            {
+                return null;
+            }
+
+            return Target?[..idx];
+        }
+    }
+
+    public string? TargetParameter
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Target))
+            {
+                return null;
+            }
+
+            var idx = Target.IndexOf('|');
+
+            if (idx == -1)
+            {
+                return null;
+            }
+
+            return Target?.Substring(idx+1, Target.Length - idx - 1);
+        }
+    }
+
+
     [Argument("i")]
     public string? Input { get; set; }
 

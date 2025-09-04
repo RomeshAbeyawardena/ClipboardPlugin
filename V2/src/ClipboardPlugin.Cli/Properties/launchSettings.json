@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "-s fish -t sea"
+      "commandLineArgs": " dotnet run -- -i \"Hello world\" -t \"file|fjdiwfw\""
     }
   }
 }

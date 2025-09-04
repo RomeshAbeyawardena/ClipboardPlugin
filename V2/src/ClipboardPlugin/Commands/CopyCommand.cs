@@ -1,7 +1,5 @@
-﻿
-using ClipboardPlugin.Actions;
+﻿using ClipboardPlugin.Actions;
 using ClipboardPlugin.Properties;
-using TextCopy;
 
 namespace ClipboardPlugin.Commands;
 
@@ -21,7 +19,7 @@ internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, Clipbo
     {
         await ioStream.Out.WriteLineAsync($"{arguments.Input} {arguments.Target}");
 
-        if (!Enum.TryParse<CopyAction>(arguments.Target, out var action))
+        if (!Enum.TryParse<CopyAction>(arguments.TargetKey, true, out var action))
         {
             action = CopyAction.Clipboard;
         }
