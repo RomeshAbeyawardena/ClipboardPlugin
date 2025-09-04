@@ -6,5 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\ClipboardPlugin\ClipboardPlugin.csproj" />
+    </ItemGroup>
 </Project>

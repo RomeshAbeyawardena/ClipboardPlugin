@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ClipboardPlugin.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "-h --test -t"
+    }
+  }
+}

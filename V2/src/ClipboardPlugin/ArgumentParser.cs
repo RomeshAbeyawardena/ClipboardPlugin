@@ -1,18 +1,15 @@
-﻿using System.ComponentModel;
-
-namespace ClipboardPlugin;
+﻿namespace ClipboardPlugin;
 
 public static class ArgumentParser
 {
-    public static T AsModel<T>(this IDictionary<string, object> values)
-        where T : class, new()
+    public static T AsModel<T>(this IDictionary<string, object> values, T model)
+        where T : class
     {
         var errorModel = new Dictionary<string, Exception>();
-        var model = new T();
-
+        
         var properties = typeof(T).GetProperties();
 
-        foreach(var (key, value) in values)
+        foreach (var (key, value) in values)
         {
             try
             {
@@ -25,7 +22,7 @@ public static class ArgumentParser
 
                 property.SetValue(model, Convert.ChangeType(value, property.PropertyType));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 errorModel.Add(key, ex);
                 continue;
@@ -33,6 +30,12 @@ public static class ArgumentParser
         }
 
         return model;
+    }
+
+    public static T AsModel<T>(this IDictionary<string, object> values)
+        where T : class, new()
+    {
+       return values.AsModel(new T());
     }
 
     public static IDictionary<string, object> ToDictionary(this string [] args)
@@ -47,7 +50,7 @@ public static class ArgumentParser
                 {
                     dict[currentKey] = true; // Flag without value
                 }
-                currentKey = arg[2..];
+                currentKey = arg[2..].Trim('-');
             }
             else if (arg.StartsWith('-'))
             {
@@ -55,7 +58,7 @@ public static class ArgumentParser
                 {
                     dict[currentKey] = true; // Flag without value
                 }
-                currentKey = arg[1..];
+                currentKey = arg[1..].Trim('-');
             }
             else
             {
