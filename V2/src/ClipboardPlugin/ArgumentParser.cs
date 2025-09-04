@@ -1,26 +1,49 @@
-﻿namespace ClipboardPlugin;
+﻿using System.Reflection;
+
+namespace ClipboardPlugin;
+
+public record PropertyAliases(IEnumerable<string> Aliases, PropertyInfo Property);
+
+
+[AttributeUsage(AttributeTargets.Property)]
+public class ArgumentAttribute(params string[] aliases) : Attribute
+{
+    public IEnumerable<string> Aliases => aliases;
+}
 
 public static class ArgumentParser
 {
-    public static T AsModel<T>(this IDictionary<string, object> values, T model)
+    public static T AsModel<T>(this IDictionary<string, object> values, T model, out IReadOnlyDictionary<string, Exception> errors)
         where T : class
     {
         var errorModel = new Dictionary<string, Exception>();
         
         var properties = typeof(T).GetProperties();
+        var propertyAlises = new List<PropertyAliases>();
+        foreach (var property in properties)
+        {
+            var argumentAttribute = property.GetCustomAttribute<ArgumentAttribute>();
+
+            if (argumentAttribute is null)
+            {
+                continue;
+            }
+
+            propertyAlises.Add(new PropertyAliases(argumentAttribute.Aliases, property));
+        }
 
         foreach (var (key, value) in values)
         {
             try
             {
                 var property = properties.FirstOrDefault(x => x.Name.Equals(key, StringComparison.OrdinalIgnoreCase) && x.CanWrite);
-
-                if (property is null)
+                PropertyAliases? propertyAlias = propertyAlises.FirstOrDefault(x => x.Aliases.Any(x => x.Equals(key, StringComparison.InvariantCultureIgnoreCase)));
+                if (property is null && propertyAlias is null)
                 {
                     continue;
                 }
-
-                property.SetValue(model, Convert.ChangeType(value, property.PropertyType));
+                var prop = (property ?? propertyAlias?.Property ?? throw new NullReferenceException());
+                prop.SetValue(model, Convert.ChangeType(value, prop.PropertyType));
             }
             catch (Exception ex)
             {
@@ -29,13 +52,14 @@ public static class ArgumentParser
             }
         }
 
+        errors = errorModel;
         return model;
     }
 
-    public static T AsModel<T>(this IDictionary<string, object> values)
+    public static T AsModel<T>(this IDictionary<string, object> values, out IReadOnlyDictionary<string, Exception> errors)
         where T : class, new()
     {
-       return values.AsModel(new T());
+       return values.AsModel(new T(), out errors);
     }
 
     public static IDictionary<string, object> ToDictionary(this string [] args)
