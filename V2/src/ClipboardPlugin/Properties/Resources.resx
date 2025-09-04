@@ -131,7 +131,7 @@ Usage: {app} -i "Test value to copy" -t Clipboard -f value -h "Text</value>
   </data>
   <data name="GeneralHelp" xml:space="preserve">
     <value>Usage:
-ClipboardPlugin.Cli.exe [switches]</value>
+{app}.exe [switches]</value>
   </data>
   <data name="VersionHelp" xml:space="preserve">
     <value>Displays version infomation

@@ -12,7 +12,7 @@ internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, Clipbo
 
     public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        return ioStream.Out.WriteLineAsync(Resources.CopyHelp);
+        return ioStream.Out.WriteLineAsync(ReplacePlaceholders(Resources.CopyHelp));
     }
 
     public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)

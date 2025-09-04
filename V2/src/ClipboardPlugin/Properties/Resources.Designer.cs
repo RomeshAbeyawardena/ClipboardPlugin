@@ -89,7 +89,7 @@ namespace ClipboardPlugin.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Usage:
-        ///ClipboardPlugin.Cli.exe [switches].
+        ///{app}.exe [switches].
         /// </summary>
         public static string GeneralHelp {
             get {
