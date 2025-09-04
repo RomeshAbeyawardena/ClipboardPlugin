@@ -75,11 +75,23 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClipboardPlugin.Cli.exe.
+        ///   Looks up a localized string similar to Usage:
+        ///ClipboardPlugin.Cli.exe [switches].
         /// </summary>
         public static string GeneralHelp {
             get {
                 return ResourceManager.GetString("GeneralHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays version infomation
+        ///
+        ///-v --version.
+        /// </summary>
+        public static string VersionHelp {
+            get {
+                return ResourceManager.GetString("VersionHelp", resourceCulture);
             }
         }
         

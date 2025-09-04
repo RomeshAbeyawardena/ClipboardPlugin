@@ -126,7 +126,13 @@
 Valid targets: clipboard, file.</value>
   </data>
   <data name="GeneralHelp" xml:space="preserve">
-    <value>ClipboardPlugin.Cli.exe</value>
+    <value>Usage:
+ClipboardPlugin.Cli.exe [switches]</value>
+  </data>
+  <data name="VersionHelp" xml:space="preserve">
+    <value>Displays version infomation
+
+-v --version</value>
   </data>
   <data name="VersionInfo" xml:space="preserve">
     <value>ClipboardPlugin v{version}</value>

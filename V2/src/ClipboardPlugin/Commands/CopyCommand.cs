@@ -3,7 +3,7 @@ using ClipboardPlugin.Properties;
 
 namespace ClipboardPlugin.Commands;
 
-internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker) : HelpContextCommandBase<ClipboardArguments>(1)
+internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker) : HelpContextCommandBase<ClipboardArguments>("copy",1)
 {
     public override bool CanExecute(ClipboardArguments arguments)
     {

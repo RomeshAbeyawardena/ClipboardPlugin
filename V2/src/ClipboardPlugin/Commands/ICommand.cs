@@ -2,6 +2,7 @@
 
 public interface ICommand<TArguments>
 {
+    string Name { get; }
     int Priority { get; }
     bool CanExecute(TArguments arguments);
     Task<bool> CanExecuteAsync(TArguments arguments, CancellationToken cancellationToken);
