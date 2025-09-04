@@ -7,6 +7,12 @@ public record ClipboardArguments
         arguments.AsModel(this, out _);
     }
 
+    [Argument("t")]
+    public string? Target { get; set; }
+
+    [Argument("s")]
+    public string? Source { get; set; }
+
     [Argument("h", "?")]
     public bool Help { get; set; }
 
