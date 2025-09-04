@@ -61,12 +61,25 @@ namespace ClipboardPlugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to def.
+        /// </summary>
+        public static string AdvancedHelp {
+            get {
+                return ResourceManager.GetString("AdvancedHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copies a provided value to a specified target
         ///
-        ///--source|s Text to copy (the provided value)
+        ///--input|i Text to copy (the provided value)
         ///--target|t A valid target
+        ///--find|f Find for replacement
+        ///--replace|h Replacement for find
         ///
-        ///Valid targets: clipboard, file..
+        ///Valid targets: clipboard, file.
+        ///
+        ///Usage: {app} -i &quot;Test value to copy&quot; -t Clipboard -f value -h &quot;Text.
         /// </summary>
         public static string CopyHelp {
             get {
