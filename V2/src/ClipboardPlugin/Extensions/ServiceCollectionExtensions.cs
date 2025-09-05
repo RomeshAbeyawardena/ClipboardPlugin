@@ -1,5 +1,6 @@
 ﻿using ClipboardPlugin.Actions;
 using ClipboardPlugin.Actions.Copying;
+using ClipboardPlugin.Actions.Text;
 using ClipboardPlugin.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,7 @@ public static class ServiceCollectionExtensions
                 .AddClasses(x => x.Where(x => x.IsOfType(typeof(ICommand<>))), false
                 ).AsImplementedInterfaces().WithTransientLifetime())
             .AddTransient<IActionInvoker<CopyAction, ClipboardArguments>, CopyActionInvoker>()
+            .AddTransient<IActionInvoker<TextAction, ClipboardArguments>, TextActionInvoker>()
             .Scan(x => x.FromAssemblyOf<ClipboardArguments>()
                 .AddClasses(x => x.Where(x => x.IsOfType(typeof(IAction<,>))), false
                 ).AsImplementedInterfaces().WithTransientLifetime());
