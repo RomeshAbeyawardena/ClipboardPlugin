@@ -1,7 +1,6 @@
-﻿
-using TextCopy;
+﻿using TextCopy;
 
-namespace ClipboardPlugin.Actions;
+namespace ClipboardPlugin.Actions.Copying;
 
 internal class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction, ClipboardArguments>
 {

@@ -1,4 +1,4 @@
-﻿namespace ClipboardPlugin.Actions;
+﻿namespace ClipboardPlugin.Actions.Copying;
 
 public enum CopyAction
 {

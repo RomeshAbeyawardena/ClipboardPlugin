@@ -1,4 +1,5 @@
 ﻿using ClipboardPlugin.Actions;
+using ClipboardPlugin.Actions.Copying;
 using ClipboardPlugin.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
