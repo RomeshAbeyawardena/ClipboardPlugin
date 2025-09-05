@@ -2,7 +2,6 @@
 using ClipboardPlugin.Actions.Copying;
 using ClipboardPlugin.Actions.Text;
 using ClipboardPlugin.Properties;
-using System.Text.RegularExpressions;
 
 namespace ClipboardPlugin.Commands;
 
