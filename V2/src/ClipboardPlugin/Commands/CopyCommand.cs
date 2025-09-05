@@ -4,8 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace ClipboardPlugin.Commands;
 
-internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker) : HelpContextCommandBase<ClipboardArguments>("copy",1)
+internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
+    public const string DISPLAY_NAME = "copy";
     public override bool CanExecute(ClipboardArguments arguments)
     {
         return !string.IsNullOrWhiteSpace(arguments.Input);

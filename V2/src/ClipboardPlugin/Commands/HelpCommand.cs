@@ -3,8 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ClipboardPlugin.Commands;
 
-internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider) : CommandBase<ClipboardArguments>("help")
+internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider) : CommandBase<ClipboardArguments>(DISPLAY_NAME)
 {
+    public const string DISPLAY_NAME = "help";
     private async Task RenderHelp(CancellationToken cancellationToken)
     {
         var commands = serviceProvider.GetServices<ICommand<ClipboardArguments>>();

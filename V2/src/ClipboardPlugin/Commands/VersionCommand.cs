@@ -2,8 +2,10 @@
 
 namespace ClipboardPlugin.Commands;
 
-internal class VersionCommand(IIoStream ioStream) : HelpContextCommandBase<ClipboardArguments>("version")
+internal class VersionCommand(IIoStream ioStream) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME)
 {
+    public const string DISPLAY_NAME = "version";
+
     public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
         return ioStream.Out.WriteLineAsync(ReplacePlaceholders(Resources.VersionHelp));
