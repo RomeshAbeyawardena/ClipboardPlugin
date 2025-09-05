@@ -76,6 +76,7 @@ namespace ClipboardPlugin.Properties {
         ///--target|t A valid target
         ///--find|f Find for replacement
         ///--replace|h Replacement for find
+        ///--extract-file-name Extracts a filename from a specified filepath
         ///
         ///Valid targets: clipboard, file.
         ///
