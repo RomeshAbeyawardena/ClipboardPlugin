@@ -1,8 +1,8 @@
 {
   "profiles": {
     "ClipboardPlugin.Cli": {
-      "commandName": "Project",
-      "commandLineArgs": " dotnet run -- -?"
+        "commandName": "Project",
+        "commandLineArgs": "-i \"\\src\\ClipboardPlugin.Cli\\file.txt\" --extract-file-name"
     }
   }
 }

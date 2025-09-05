@@ -60,7 +60,7 @@ public record ClipboardArguments : IHelpContextArgument
 
     [Argument("i")]
     public string? Input { get; set; }
-
+    
     [Argument("?")]
     public bool Help { get; set; }
 
@@ -69,4 +69,7 @@ public record ClipboardArguments : IHelpContextArgument
 
     [Argument("r")]
     public bool Regex { get; set; }
+
+    [Argument("extract-file-name")]
+    public bool ExtractFileName { get; set; }
 }

@@ -30,13 +30,22 @@ internal class CopyCommand(IIoStream ioStream,
             action = CopyAction.Clipboard;
         }
 
-        var textAction = TextAction.None;
+        var textActions = new List<TextAction>();
         if (arguments.IsReplacement)
         {
-            textAction = TextAction.Replace;
+            textActions.Add(TextAction.Replace);
         }
 
-        await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
+        if (arguments.ExtractFileName)
+        {
+            textActions.Add(TextAction.ExtractFilename);
+        }
+
+        foreach (var textAction in textActions)
+        {
+            await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
+        }
+
         await ioStream.Out.WriteLineAsync($"Copying {arguments.Input} to {action}");
         await copyActionInvoker.ExecuteAsync(action, arguments, cancellationToken);
         
