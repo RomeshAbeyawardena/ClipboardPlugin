@@ -1,11 +1,14 @@
 ﻿using ClipboardPlugin.Actions;
 using ClipboardPlugin.Actions.Copying;
+using ClipboardPlugin.Actions.Text;
 using ClipboardPlugin.Properties;
 using System.Text.RegularExpressions;
 
 namespace ClipboardPlugin.Commands;
 
-internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
+internal class CopyCommand(IIoStream ioStream, 
+    IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker,
+    IActionInvoker<TextAction, ClipboardArguments> textActionInvoker) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
     public const string DISPLAY_NAME = "copy";
     public override bool CanExecute(ClipboardArguments arguments)
@@ -27,15 +30,14 @@ internal class CopyCommand(IIoStream ioStream, IActionInvoker<CopyAction, Clipbo
             action = CopyAction.Clipboard;
         }
 
-        if (!string.IsNullOrWhiteSpace(arguments.Find))
+        var textAction = TextAction.None;
+        if (arguments.IsReplacement)
         {
-            arguments.Input = arguments.Regex 
-                ? Regex.Replace(arguments.Input, arguments.Find, arguments.Replace ?? string.Empty)
-                : arguments.Input.Replace(arguments.Find, arguments.Replace);
+            textAction = TextAction.Replace;
         }
 
+        await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
         await ioStream.Out.WriteLineAsync($"Copying {arguments.Input} to {action}");
-
         await copyActionInvoker.ExecuteAsync(action, arguments, cancellationToken);
         
     }

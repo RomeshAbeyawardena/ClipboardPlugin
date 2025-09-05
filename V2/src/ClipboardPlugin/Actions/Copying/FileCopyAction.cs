@@ -1,12 +1,10 @@
-﻿using TextCopy;
+﻿namespace ClipboardPlugin.Actions.Copying;
 
-namespace ClipboardPlugin.Actions.Copying;
-
-internal class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction, ClipboardArguments>
+internal class FileCopyAction(IIoStream ioStream) : ActionBase<CopyAction, ClipboardArguments>
 {
     public override bool CanExecute(CopyAction action)
     {
-        return action == CopyAction.Clipboard;
+        return action == CopyAction.File;
     }
 
     public override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -17,7 +15,10 @@ internal class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction
         }
 
         ArgumentException.ThrowIfNullOrWhiteSpace(Source.Input, nameof(Source));
+        ArgumentException.ThrowIfNullOrWhiteSpace(Source.Target, nameof(Source));
 
-        await clipboard.SetTextAsync(Source.Input, cancellationToken);
+        await ioStream.Out.WriteLineAsync(Source.TargetParameter);
+
+        await Task.CompletedTask;
     }
 }

@@ -56,6 +56,8 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("h")]
     public string? Replace { get; set; }
 
+    public bool IsReplacement => !string.IsNullOrWhiteSpace(Replace) || !string.IsNullOrWhiteSpace(Find);
+
     [Argument("i")]
     public string? Input { get; set; }
 
