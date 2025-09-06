@@ -66,9 +66,10 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
                 var (key, value) = keyValuePair.Value;
                 await ioStream.Out.WriteLineAsync($"{key}: {value}");
             }
-
-            await ioStream.Error.WriteLineAsync("Not found");
-            
+            else
+            {
+                await ioStream.Error.WriteLineAsync("Not found");
+            }
         }
     }
 }
