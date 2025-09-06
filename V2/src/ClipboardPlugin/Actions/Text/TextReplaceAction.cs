@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace ClipboardPlugin.Actions.Text;
 
-internal class TextReplaceAction : ActionBase<TextAction, ClipboardArguments>
+internal class TextReplaceAction() : ActionBase<TextAction, ClipboardArguments>(DEFAULT_PRIORITY)
 {
     public override bool CanExecute(TextAction action)
     {

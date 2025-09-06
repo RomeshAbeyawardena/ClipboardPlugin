@@ -2,7 +2,7 @@
 
 namespace ClipboardPlugin.Actions.Copying;
 
-internal class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction, ClipboardArguments>
+internal class ClipboardCopyAction(IClipboard clipboard) : ActionBase<CopyAction, ClipboardArguments>(DEFAULT_PRIORITY)
 {
     public override bool CanExecute(CopyAction action)
     {

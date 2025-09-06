@@ -1,6 +1,6 @@
 ﻿namespace ClipboardPlugin.Actions.Copying;
 
-internal class FileCopyAction(IIoStream ioStream) : ActionBase<CopyAction, ClipboardArguments>
+internal class FileCopyAction(IIoStream ioStream) : ActionBase<CopyAction, ClipboardArguments>(DEFAULT_PRIORITY)
 {
     public override bool CanExecute(CopyAction action)
     {

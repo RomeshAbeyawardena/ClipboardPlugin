@@ -6,7 +6,7 @@ public abstract class ActionInvokerBase<TAction, TActionSource>(IEnumerable<IAct
 {
     public async Task ExecuteAsync(TAction action, TActionSource actionSource, CancellationToken cancellationToken)
     {
-        foreach (var act in actions)
+        foreach (var act in actions.OrderBy(x => x.Priority))
         {
             if (await act.CanExecuteAsync(action, cancellationToken))
             {

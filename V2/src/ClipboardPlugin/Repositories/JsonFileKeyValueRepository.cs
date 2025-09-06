@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Linq;
 using System.Text.Json;
 
 namespace ClipboardPlugin.Repositories;
@@ -72,5 +73,16 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
         }
 
         return Task.CompletedTask;
+    }
+
+    public async Task<IEnumerable<(string, string?)>> GetAsync(int? take, CancellationToken cancellationToken)
+    {
+        await LoadAsync(false, cancellationToken);
+
+        var result = (take.HasValue) 
+            ? jsonKeyValueCache.Take(take.Value) 
+            : jsonKeyValueCache;
+
+        return result.Select((key) => (key.Key, (string?)key.Value));
     }
 }

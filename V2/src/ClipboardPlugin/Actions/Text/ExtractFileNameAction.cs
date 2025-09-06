@@ -1,7 +1,7 @@
 ﻿
 namespace ClipboardPlugin.Actions.Text
 {
-    internal class ExtractFileNameAction : ActionBase<TextAction, ClipboardArguments>
+    internal class ExtractFileNameAction() : ActionBase<TextAction, ClipboardArguments>(DEFAULT_PRIORITY)
     {
         public override bool CanExecute(TextAction action)
         {

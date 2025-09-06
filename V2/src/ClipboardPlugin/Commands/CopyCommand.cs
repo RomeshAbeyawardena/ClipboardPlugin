@@ -2,12 +2,14 @@
 using ClipboardPlugin.Actions.Copying;
 using ClipboardPlugin.Actions.Text;
 using ClipboardPlugin.Properties;
+using ClipboardPlugin.Repositories;
 
 namespace ClipboardPlugin.Commands;
 
 internal class CopyCommand(IIoStream ioStream, 
     IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker,
-    IActionInvoker<TextAction, ClipboardArguments> textActionInvoker) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
+    IActionInvoker<TextAction, ClipboardArguments> textActionInvoker,
+    IKeyValueRepository keyValueRepository) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
     public const string DISPLAY_NAME = "copy";
     public override bool CanExecute(ClipboardArguments arguments)
@@ -35,6 +37,10 @@ internal class CopyCommand(IIoStream ioStream,
         {
             await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
         }
+
+        var placeholders = await keyValueRepository.GetAsync((int?)null, cancellationToken);
+
+        ReplacePlaceholders(arguments.Input, placeholders.ToDictionary());
 
         await ioStream.Out.WriteLineAsync($"Copying {arguments.Input} to {action}");
         await copyActionInvoker.ExecuteAsync(action, arguments, cancellationToken);
