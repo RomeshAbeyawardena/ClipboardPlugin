@@ -1,4 +1,9 @@
-﻿namespace ClipboardPlugin;
+﻿namespace ClipboardPlugin.Repositories;
+
+internal interface IFileBasedKeyValueRepository : IKeyValueRepository
+{
+    Task LoadAsync(bool inValidate, CancellationToken cancellationToken);
+}
 
 internal interface IKeyValueRepository
 {

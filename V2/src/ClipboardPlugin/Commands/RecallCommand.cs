@@ -1,4 +1,5 @@
 ﻿
+using ClipboardPlugin.Repositories;
 using System.Collections.Generic;
 using System.IO;
 using TextCopy;

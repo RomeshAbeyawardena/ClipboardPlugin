@@ -2,6 +2,7 @@
 using ClipboardPlugin.Actions.Copying;
 using ClipboardPlugin.Actions.Text;
 using ClipboardPlugin.Commands;
+using ClipboardPlugin.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

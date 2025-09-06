@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.Json;
 
-namespace ClipboardPlugin;
+namespace ClipboardPlugin.Repositories;
 
-internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvider) : IKeyValueRepository
+internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvider) : IFileBasedKeyValueRepository
 {
     private readonly ConcurrentDictionary<string, string> jsonKeyValueCache = [];
     private bool IsLoaded { get; } = false;

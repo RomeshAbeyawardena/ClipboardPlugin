@@ -1,4 +1,5 @@
 ﻿
+using ClipboardPlugin.Repositories;
 using TextCopy;
 
 namespace ClipboardPlugin.Commands;
