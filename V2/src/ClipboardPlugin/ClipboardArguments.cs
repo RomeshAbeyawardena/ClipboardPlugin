@@ -2,9 +2,10 @@
 
 public record ClipboardArguments : IHelpContextArgument
 {
-    public ClipboardArguments(IDictionary<string, object> arguments)
+    public ClipboardArguments(IEnumerable<string> arguments, IDictionary<string, object> argumentDictionary)
     {
-        arguments.AsModel(this, out _);
+        Arguments = arguments;
+        argumentDictionary.AsModel(this, out _);
     }
 
     [Argument("t")]
@@ -72,4 +73,8 @@ public record ClipboardArguments : IHelpContextArgument
 
     [Argument("extract-file-name")]
     public bool ExtractFileName { get; set; }
+
+    public string? Define { get; set; }
+
+    public IEnumerable<string> Arguments { get; }
 }

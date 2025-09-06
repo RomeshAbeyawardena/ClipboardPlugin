@@ -29,7 +29,7 @@ internal class CopyCommand(IIoStream ioStream,
             action = CopyAction.Clipboard;
         }
 
-        var textActions = TextActions.ToList(arguments);
+        var textActions = TextActions.Resolve(arguments);
 
         foreach (var textAction in textActions)
         {

@@ -12,7 +12,7 @@ public enum TextAction
 /// </summary>
 public static class TextActions
 {
-    public static IEnumerable<TextAction> ToList(ClipboardArguments arguments)
+    public static IEnumerable<TextAction> Resolve(ClipboardArguments arguments)
     {
         var textActions = new List<TextAction>();
         if (arguments.IsReplacement)
