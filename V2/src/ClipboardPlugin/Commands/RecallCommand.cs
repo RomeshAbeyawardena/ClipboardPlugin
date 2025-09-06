@@ -12,7 +12,7 @@ internal class RecallCommand(IKeyValueRepository keyValueRepository, IIoStream i
     public const string DISPLAY_NAME = "RECALL";
     public override bool CanExecute(ClipboardArguments arguments)
     {
-        return !string.IsNullOrWhiteSpace(arguments.Recall);
+        return arguments.List.HasValue || !string.IsNullOrWhiteSpace(arguments.Recall);
     }
 
     public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
@@ -25,6 +25,14 @@ internal class RecallCommand(IKeyValueRepository keyValueRepository, IIoStream i
         if(string.IsNullOrWhiteSpace(arguments.Recall))
         {
             return;
+        }
+
+        if (arguments.List.HasValue)
+        {
+            foreach (var (key, value) in await keyValueRepository.GetAsync(arguments.List.Value, cancellationToken))
+            {
+                await ioStream.Out.WriteLineAsync($"{key}\t{value}");
+            }
         }
 
         var keyValuePair = await keyValueRepository.GetAsync(arguments.Recall, cancellationToken);

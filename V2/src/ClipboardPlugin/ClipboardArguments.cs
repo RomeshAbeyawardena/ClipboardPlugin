@@ -80,5 +80,8 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("get")]
     public string? Recall { get; set; }
 
+    [Argument("ls")]
+    public int? List { get; set; }
+
     public IEnumerable<string> Arguments { get; }
 }
