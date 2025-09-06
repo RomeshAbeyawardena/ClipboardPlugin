@@ -1,7 +1,7 @@
 ﻿
 namespace ClipboardPlugin.Commands;
 
-internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream) : CommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
+internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
     private static (string, string?)? GetKeyValuePair(string value, params char[] c)
     {
@@ -33,23 +33,29 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
 
     public const string DISPLAY_NAME = "DEFINE";
 
-    public override bool CanExecute(ClipboardArguments arguments)
+    public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        return arguments.Recall || !string.IsNullOrWhiteSpace(arguments.Define);
+        return base.RenderContextHelpAsync(arguments, cancellationToken);
     }
 
-    public override async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
+    public override bool CanExecute(ClipboardArguments arguments)
     {
-        if (string.IsNullOrWhiteSpace(arguments.Define) || !arguments.Recall)
+        return !string.IsNullOrWhiteSpace(arguments.Define);
+    }
+
+    public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(arguments.Define))
         {
             return;
         }
 
         var keyValuePair = GetKeyValuePair(arguments.Define, ':', '=');
 
-        if (!arguments.Recall && keyValuePair.HasValue)
+        if (keyValuePair.HasValue)
         {
             await keyValueRepository.UpsertAsync(keyValuePair.Value, cancellationToken);
+            await keyValueRepository.SaveChangesAsync(cancellationToken);
         }
         else
         {

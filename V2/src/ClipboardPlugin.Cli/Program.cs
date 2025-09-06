@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 {
     services
-        .AddSingleton((s) => new ClipboardArguments(args.ToDictionary()))
+        .AddSingleton((s) => new ClipboardArguments(args))
         .AddCommands()
         .AddServices()
         .AddSingleton(s => IoStream.ConsoleStream());
