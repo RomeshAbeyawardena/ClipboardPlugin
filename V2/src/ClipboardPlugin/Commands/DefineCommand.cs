@@ -35,19 +35,19 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
 
     public override bool CanExecute(ClipboardArguments arguments)
     {
-        return !string.IsNullOrWhiteSpace(arguments.Define);
+        return arguments.Recall || !string.IsNullOrWhiteSpace(arguments.Define);
     }
 
     public override async Task ExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(arguments.Define))
+        if (string.IsNullOrWhiteSpace(arguments.Define) || !arguments.Recall)
         {
             return;
         }
 
         var keyValuePair = GetKeyValuePair(arguments.Define, ':', '=');
 
-        if (keyValuePair.HasValue)
+        if (!arguments.Recall && keyValuePair.HasValue)
         {
             await keyValueRepository.UpsertAsync(keyValuePair.Value, cancellationToken);
         }

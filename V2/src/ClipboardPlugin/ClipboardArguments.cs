@@ -75,6 +75,7 @@ public record ClipboardArguments : IHelpContextArgument
     public bool ExtractFileName { get; set; }
 
     public string? Define { get; set; }
+    public bool Recall { get; set; }
 
     public IEnumerable<string> Arguments { get; }
 }
