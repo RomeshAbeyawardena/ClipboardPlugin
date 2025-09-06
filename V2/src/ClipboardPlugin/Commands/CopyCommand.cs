@@ -29,16 +29,7 @@ internal class CopyCommand(IIoStream ioStream,
             action = CopyAction.Clipboard;
         }
 
-        var textActions = new List<TextAction>();
-        if (arguments.IsReplacement)
-        {
-            textActions.Add(TextAction.Replace);
-        }
-
-        if (arguments.ExtractFileName)
-        {
-            textActions.Add(TextAction.ExtractFilename);
-        }
+        var textActions = TextActions.ToList(arguments);
 
         foreach (var textAction in textActions)
         {
