@@ -8,7 +8,7 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
     private readonly ConcurrentDictionary<string, string> jsonKeyValueCache = [];
     private bool IsLoaded { get; } = false;
 
-    public async Task Load(bool inValidate = false, CancellationToken cancellationToken)
+    public async Task LoadAsync(bool inValidate, CancellationToken cancellationToken)
     {
         if (IsLoaded && !inValidate)
         {
@@ -36,7 +36,7 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
 
     public async Task<(string, string?)?> GetAsync(string key, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        await LoadAsync(false, cancellationToken);
         if (jsonKeyValueCache.TryGetValue(key, out var value))
         {
             return (key, value);
