@@ -1,7 +1,10 @@
 ﻿
+using TextCopy;
+
 namespace ClipboardPlugin.Commands;
 
-internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
+internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream, IClipboard clipboard) 
+    : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
     private static (string, string?)? GetKeyValuePair(string value, params char[] c)
     {
@@ -65,6 +68,10 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
             {
                 var (key, value) = keyValuePair.Value;
                 await ioStream.Out.WriteLineAsync($"{key}: {value}");
+                if (value is not null)
+                {
+                    await clipboard.SetTextAsync(value, cancellationToken);
+                }
             }
             else
             {
