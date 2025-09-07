@@ -38,7 +38,7 @@ internal class CopyCommand(IIoStream ioStream,
             await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
         }
 
-        var placeholders = await keyValueRepository.GetAsync((int?)null, cancellationToken);
+        var placeholders = await keyValueRepository.GetAsync(null, null, cancellationToken);
 
         arguments.Input = ReplacePlaceholders(arguments.Input, placeholders.ToDictionary());
 

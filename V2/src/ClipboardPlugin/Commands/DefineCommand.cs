@@ -14,6 +14,10 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
         do
         {
             currentSeparator = c[index++];
+            if (!value.Contains(currentSeparator.Value))
+            {
+                currentSeparator = null;
+            }
         }
         while (index < c.Length && currentSeparator is null);
 

@@ -1,7 +1,5 @@
 ﻿
 using ClipboardPlugin.Repositories;
-using System.Collections.Generic;
-using System.IO;
 using TextCopy;
 
 namespace ClipboardPlugin.Commands;
@@ -29,7 +27,8 @@ internal class RecallCommand(IKeyValueRepository keyValueRepository, IIoStream i
 
         if (arguments.List.HasValue)
         {
-            foreach (var (key, value) in await keyValueRepository.GetAsync(arguments.List.Value, cancellationToken))
+            foreach (var (key, value) in await keyValueRepository.GetAsync(arguments.Recall.Replace("*", string.Empty), 
+                arguments.List.Value, cancellationToken))
             {
                 await ioStream.Out.WriteLineAsync($"{key}\t{value}");
             }

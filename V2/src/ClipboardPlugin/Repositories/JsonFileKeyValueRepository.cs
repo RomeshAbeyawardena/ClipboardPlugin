@@ -74,14 +74,18 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
         }
     }
 
-    public async Task<IEnumerable<(string, string?)>> GetAsync(int? take, CancellationToken cancellationToken)
+    public async Task<IEnumerable<(string, string?)>> GetAsync(string? key, int? take, CancellationToken cancellationToken)
     {
         await LoadAsync(false, cancellationToken);
 
-        var result = (take.HasValue) 
+        var result = string.IsNullOrWhiteSpace(key)
+            ? jsonKeyValueCache
+            : jsonKeyValueCache.Where(x => x.Key.Contains(key));
+            
+        result = (take.HasValue) 
             ? jsonKeyValueCache.Take(take.Value) 
             : jsonKeyValueCache;
 
-        return result.Select((key) => (key.Key, (string?)key.Value));
+        return result.Select((key) => (key.Key, (string?)key.Value)).ToArray();
     }
 }
