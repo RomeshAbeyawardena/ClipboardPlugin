@@ -7,7 +7,7 @@ namespace ClipboardPlugin.Commands;
 internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream, IClipboard clipboard) 
     : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
-    private static (string, string?)? GetKeyValuePair(string value, params char[] c)
+    private static char? DetermineSeparator(string value, params char[] c)
     {
         char? currentSeparator;
         int index = 0;
@@ -20,7 +20,28 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
             }
         }
         while (index < c.Length && currentSeparator is null);
+        return currentSeparator;
+    }
 
+    private static IEnumerable<(string, string?)?> GetKeyValuePairs(IEnumerable<string> values, params char[] c)
+    {
+        if (!values.Any())
+        {
+            return [];
+        }
+
+        var currentSeparator = DetermineSeparator(values.First(), c);
+
+        if (currentSeparator is null)
+        {
+            return [];
+        }
+
+        return values.Select(x => GetKeyValuePair(x, currentSeparator));
+    }
+
+    private static (string, string?)? GetKeyValuePair(string value, char? currentSeparator)
+    {
         if (!currentSeparator.HasValue)
         {
             return null;
@@ -37,6 +58,12 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
         }
 
         return null;
+    }
+
+    private static (string, string?)? GetKeyValuePair(string value, params char[] c)
+    {
+        char? currentSeparator = DetermineSeparator(value, c);
+        return GetKeyValuePair(value, currentSeparator);
     }
 
     public const string DISPLAY_NAME = "DEFINE";
