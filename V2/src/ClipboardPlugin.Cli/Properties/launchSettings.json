@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "-define meow:mow"
+      "commandLineArgs": "-get * -list 60"
     }
   }
 }

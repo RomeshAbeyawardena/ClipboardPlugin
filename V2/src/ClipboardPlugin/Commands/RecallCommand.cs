@@ -33,6 +33,8 @@ internal class RecallCommand(IKeyValueRepository keyValueRepository, IIoStream i
             {
                 await ioStream.Out.WriteLineAsync($"{key}\t{value}");
             }
+
+            return;
         }
 
         var keyValuePair = await keyValueRepository.GetAsync(arguments.Recall, cancellationToken);

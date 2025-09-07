@@ -4,15 +4,31 @@ namespace ClipboardPlugin;
 
 public record PropertyAliases(IEnumerable<string> Aliases, PropertyInfo Property);
 
-
-[AttributeUsage(AttributeTargets.Property)]
-public class ArgumentAttribute(params string[] aliases) : Attribute
-{
-    public IEnumerable<string> Aliases => aliases;
-}
-
 public static class ArgumentParser
 {
+    private static object ChangeType(object value, Type propertyType)
+    {
+        if ((propertyType == typeof(int) || propertyType == typeof(int?))
+            && int.TryParse(value.ToString(), out var result))
+        {
+            return result;
+        }
+
+        if ((propertyType == typeof(decimal) || propertyType == typeof(decimal?))
+            && decimal.TryParse(value.ToString(), out var decResult))
+        {
+            return decResult;
+        }
+
+        if ((propertyType == typeof(bool) || propertyType == typeof(bool?))
+            && bool.TryParse(value.ToString(), out var boolResult))
+        {
+            return boolResult;
+        }
+
+        return value;
+    }
+
     public static T AsModel<T>(this IDictionary<string, object> values, T model, out IReadOnlyDictionary<string, Exception> errors)
         where T : class
     {
@@ -43,7 +59,7 @@ public static class ArgumentParser
                     continue;
                 }
                 var prop = (property ?? propertyAlias?.Property ?? throw new NullReferenceException());
-                prop.SetValue(model, Convert.ChangeType(value, prop.PropertyType));
+                prop.SetValue(model, ChangeType(value, prop.PropertyType));
             }
             catch (Exception ex)
             {
