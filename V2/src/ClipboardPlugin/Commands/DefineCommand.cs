@@ -5,7 +5,7 @@ using TextCopy;
 
 namespace ClipboardPlugin.Commands;
 
-internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream, IClipboard clipboard) 
+internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream, IClipboard clipboard, IApplicationSettings applicationSettings) 
     : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
     private static (string, string?)? GetKeyValuePair(string value, params char[] c)
@@ -33,7 +33,7 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
             return;
         }
 
-        var keyValuePair = GetKeyValuePair(arguments.Define, ':', '=');
+        var keyValuePair = GetKeyValuePair(arguments.Define, [.. applicationSettings.KeyValueSeparators]);
 
         if (keyValuePair.HasValue)
         {

@@ -7,7 +7,7 @@ using ClipboardPlugin.Repositories;
 
 namespace ClipboardPlugin.Commands;
 
-internal class CopyCommand(IIoStream ioStream, 
+internal class CopyCommand(IIoStream ioStream, IApplicationSettings applicationSettings,
     IActionInvoker<CopyAction, ClipboardArguments> copyActionInvoker,
     IActionInvoker<TextAction, ClipboardArguments> textActionInvoker,
     IKeyValueRepository keyValueRepository) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
@@ -43,7 +43,7 @@ internal class CopyCommand(IIoStream ioStream,
 
         if (!string.IsNullOrWhiteSpace(arguments.Parameters))
         {
-            var parameters = KeyValuePairHelper.GetKeyValuePairs(arguments.Parameters.Split(' '), '=', ':');
+            var parameters = KeyValuePairHelper.GetKeyValuePairs(arguments.Parameters.Split(' '), [.. applicationSettings.KeyValueSeparators]);
 
             if (parameters is not null && parameters.Any(x => x.HasValue))
             {
