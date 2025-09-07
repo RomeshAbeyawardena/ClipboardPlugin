@@ -14,11 +14,11 @@ internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream i
         return KeyValuePairHelper.GetKeyValuePair(value, currentSeparator);
     }
 
-    public const string DISPLAY_NAME = "DEFINE";
+    public const string DISPLAY_NAME = "define";
 
-    public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
+    public override async Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        return base.RenderContextHelpAsync(arguments, cancellationToken);
+        await ioStream.Out.WriteLineAsync(Properties.Resources.DefineHelp);
     }
 
     public override bool CanExecute(ClipboardArguments arguments)

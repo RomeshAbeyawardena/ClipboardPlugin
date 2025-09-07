@@ -76,15 +76,27 @@ namespace ClipboardPlugin.Properties {
         ///--target|t A valid target
         ///--find|f Find for replacement
         ///--replace|h Replacement for find
-        ///--extract-file-name Extracts a filename from a specified filepath
+        ///--extract-file-name Extracts a filename from a specified file path
+        ///--parameters|p Passes parameters to be substituted within a copy operation
         ///
         ///Valid targets: clipboard, file.
         ///
-        ///Usage: {app} -i &quot;Test value to copy&quot; -t Clipboard -f value -h &quot;Text.
+        ///Usage: {app} -i &quot;Test value to copy&quot; -t Clipboard -f value -h &quot;Text&quot;.
         /// </summary>
         public static string CopyHelp {
             get {
                 return ResourceManager.GetString("CopyHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defines or retrieves a locally stored placeholder to be used in future copy operations
+        ///
+        ///Usage: --define|set &quot;mysetting:value|mysetting=value&quot;.
+        /// </summary>
+        public static string DefineHelp {
+            get {
+                return ResourceManager.GetString("DefineHelp", resourceCulture);
             }
         }
         
@@ -95,6 +107,17 @@ namespace ClipboardPlugin.Properties {
         public static string GeneralHelp {
             get {
                 return ResourceManager.GetString("GeneralHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieves a single or multiple locally stored placeholders to be used in future copy operations.
+        ///
+        ///Usage: --recall|get mysetting -l|list [number].
+        /// </summary>
+        public static string RecallHelp {
+            get {
+                return ResourceManager.GetString("RecallHelp", resourceCulture);
             }
         }
         

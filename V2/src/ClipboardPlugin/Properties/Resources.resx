@@ -124,11 +124,12 @@
 --target|t A valid target
 --find|f Find for replacement
 --replace|h Replacement for find
---extract-file-name Extracts a filename from a specified filepath
+--extract-file-name Extracts a filename from a specified file path
+--parameters|p Passes parameters to be substituted within a copy operation
 
 Valid targets: clipboard, file.
 
-Usage: {app} -i "Test value to copy" -t Clipboard -f value -h "Text</value>
+Usage: {app} -i "Test value to copy" -t Clipboard -f value -h "Text"</value>
   </data>
   <data name="GeneralHelp" xml:space="preserve">
     <value>Usage:
@@ -144,5 +145,15 @@ Usage: {app} -i "Test value to copy" -t Clipboard -f value -h "Text</value>
   </data>
   <data name="AdvancedHelp" xml:space="preserve">
     <value>def</value>
+  </data>
+  <data name="DefineHelp" xml:space="preserve">
+    <value>Defines or retrieves a locally stored placeholder to be used in future copy operations
+
+Usage: --define|set "mysetting:value|mysetting=value"</value>
+  </data>
+  <data name="RecallHelp" xml:space="preserve">
+    <value>Retrieves a single or multiple locally stored placeholders to be used in future copy operations.
+
+Usage: --recall|get mysetting -l|list [number]</value>
   </data>
 </root>
