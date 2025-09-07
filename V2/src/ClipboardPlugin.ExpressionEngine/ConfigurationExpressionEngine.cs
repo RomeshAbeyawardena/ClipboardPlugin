@@ -1,15 +1,17 @@
 ﻿using NCalc;
 namespace ClipboardPlugin.ExpressionEngine;
 
-public record ConfigurationExpressionContext : ExpressionContextBase
+public class ConfigurationExpressionEngine(TimeProvider timeProvider)
 {
-
-}
-
-public class ConfigurationExpressionEngine : ExpressionBase<ConfigurationExpressionContext>
-{
-    public NCalc.AsyncExpression Expression(string expression)
+    private ValueTask<DateTimeOffset> Now(AsyncExpressionParameterData asyncExpressionParameter)
     {
-        return new AsyncExpression(expression, ExpressionOptions.None, System.Globalization.CultureInfo.CurrentCulture);
+        return ValueTask.FromResult(timeProvider.GetUtcNow());
+    }
+
+    public AsyncExpression Expression(string expression)
+    {
+        var expr =  new AsyncExpression(expression, ExpressionOptions.None, System.Globalization.CultureInfo.CurrentCulture);
+        expr.DynamicParameters.Add("now", async (a) => await Now(a));
+        return expr;
     }
 }
