@@ -13,4 +13,9 @@
     <ItemGroup>
       <ProjectReference Include="..\ClipboardPlugin\ClipboardPlugin.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

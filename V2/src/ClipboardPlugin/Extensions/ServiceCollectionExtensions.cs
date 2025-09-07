@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddCommands(this IServiceCollection services)
     {
         return services
+            .AddSingleton<IApplicationSettings, ConfigurationBasedApplicationSettings>()
             .AddTransient<ICommandParser<ClipboardArguments>, ClipboardArgumentsCommandParser>()
             .Scan(x => x.FromAssemblyOf<ClipboardArguments>()
                 .AddClasses(x => x.Where(x => x.IsOfType(typeof(ICommand<>))), false

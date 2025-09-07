@@ -17,7 +17,7 @@ void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 }
 
 using var host = Host.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration(x => x.AddUserSecrets(typeof(Program).Assembly, true))
+    .ConfigureAppConfiguration(x => x.AddJsonFile("appsettings.json").AddUserSecrets(typeof(Program).Assembly, true))
     .ConfigureLogging(x => x.AddConsole())
     .ConfigureServices(ConfigureServices)
     .Build();
