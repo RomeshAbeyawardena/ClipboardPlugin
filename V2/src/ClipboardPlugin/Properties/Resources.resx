@@ -154,6 +154,8 @@ Usage: --define|set "mysetting:value|mysetting=value"</value>
   <data name="RecallHelp" xml:space="preserve">
     <value>Retrieves a single or multiple locally stored placeholders to be used in future copy operations.
 
-Usage: --recall|get mysetting -l|list [number]</value>
+--list|ls [number] Lists x number of stored placeholders.
+
+Usage: --recall|get mysetting -ls|list [number]</value>
   </data>
 </root>

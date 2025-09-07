@@ -113,7 +113,9 @@ namespace ClipboardPlugin.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Retrieves a single or multiple locally stored placeholders to be used in future copy operations.
         ///
-        ///Usage: --recall|get mysetting -l|list [number].
+        ///--list|ls [number] Lists x number of stored placeholders.
+        ///
+        ///Usage: --recall|get mysetting -ls|list [number].
         /// </summary>
         public static string RecallHelp {
             get {
