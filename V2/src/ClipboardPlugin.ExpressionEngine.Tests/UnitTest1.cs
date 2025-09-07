@@ -30,8 +30,17 @@ public class Tests
     [Test]
     public async Task Test1()
     {
-        var u = sut.Expression("[now]", culture);
+        var u = sut.Expression("now", culture);
         var t = await u.EvaluateAsync();
         Assert.That(t, Is.EqualTo(utcNow));
+
+        //var u = sut.Expression("[now]", culture);
+    }
+
+    [Test]
+    public void Test2()
+    {
+        PlaceholderScanner scanner = new PlaceholderScanner();
+        scanner.ScanRanges("text {code} some other text {code 2}", '{', '}');
     }
 }
