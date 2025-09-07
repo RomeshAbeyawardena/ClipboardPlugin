@@ -65,14 +65,13 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
         return UpsertAsync(key, value, cancellationToken);
     }
 
-    public Task UpsertAsync(string key, string value, CancellationToken cancellationToken)
+    public async Task UpsertAsync(string key, string value, CancellationToken cancellationToken)
     {
+        await LoadAsync(false, cancellationToken);
         if (!jsonKeyValueCache.TryAdd(key, value))
         {
             jsonKeyValueCache[key] = value;
         }
-
-        return Task.CompletedTask;
     }
 
     public async Task<IEnumerable<(string, string?)>> GetAsync(int? take, CancellationToken cancellationToken)
