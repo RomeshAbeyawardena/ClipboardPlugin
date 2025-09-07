@@ -41,6 +41,15 @@ public class Tests
     public void Test2()
     {
         PlaceholderScanner scanner = new PlaceholderScanner();
-        scanner.ScanRanges("text {code} some other text {code 2}", '{', '}');
+        var target = "text {code} some other text {code 2}";
+        var indices = scanner.ScanRanges(target,'{', '}');
+
+        var span = target.AsSpan();
+        foreach(var index in indices)
+        {
+            var (offset, length) = index.GetOffsetAndLength(target.Length);
+            var m = span.Slice(offset + 1, length -1);
+        }
+
     }
 }

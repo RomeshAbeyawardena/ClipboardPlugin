@@ -10,11 +10,11 @@ internal class PlaceholderScanner : IPlaceholderScanner
     private static int[] GetRanges(string value, char character)
     {
         List<int> ranges = [];
-        int lastIndex = 0;
+        int lastIndex = -1;
         do
         {
             lastIndex = value.IndexOf(character, lastIndex + 1);
-            if (lastIndex > 1)
+            if (lastIndex > 0)
             {
                 ranges.Add(lastIndex);
             }
@@ -43,5 +43,19 @@ internal class PlaceholderScanner : IPlaceholderScanner
         }
 
         return ranges;
+    }
+
+    public IEnumerable<(Range, string)> GetPlaceholderExpressions(string value, char startChar, char endChar)
+    {
+        var indices = ScanRanges(value, startChar, endChar);
+        var span = value.AsSpan();
+        var placeholderExpressions = new List<(Range, string)>();
+        foreach (var index in indices)
+        {
+            var (offset, length) = index.GetOffsetAndLength(span.Length);
+            placeholderExpressions.Add((index, new string(span.Slice(offset + 1, length - 1))));
+        }
+
+        return placeholderExpressions;
     }
 }
