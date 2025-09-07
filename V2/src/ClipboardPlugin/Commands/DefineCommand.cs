@@ -1,4 +1,5 @@
 ﻿
+using ClipboardPlugin.Extensions;
 using ClipboardPlugin.Repositories;
 using TextCopy;
 
@@ -7,63 +8,10 @@ namespace ClipboardPlugin.Commands;
 internal class DefineCommand(IKeyValueRepository keyValueRepository, IIoStream ioStream, IClipboard clipboard) 
     : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME, 1)
 {
-    private static char? DetermineSeparator(string value, params char[] c)
-    {
-        char? currentSeparator;
-        int index = 0;
-        do
-        {
-            currentSeparator = c[index++];
-            if (!value.Contains(currentSeparator.Value))
-            {
-                currentSeparator = null;
-            }
-        }
-        while (index < c.Length && currentSeparator is null);
-        return currentSeparator;
-    }
-
-    private static IEnumerable<(string, string?)?> GetKeyValuePairs(IEnumerable<string> values, params char[] c)
-    {
-        if (!values.Any())
-        {
-            return [];
-        }
-
-        var currentSeparator = DetermineSeparator(values.First(), c);
-
-        if (currentSeparator is null)
-        {
-            return [];
-        }
-
-        return values.Select(x => GetKeyValuePair(x, currentSeparator));
-    }
-
-    private static (string, string?)? GetKeyValuePair(string value, char? currentSeparator)
-    {
-        if (!currentSeparator.HasValue)
-        {
-            return null;
-        }
-
-        var definition = value.Split(currentSeparator.Value);
-
-        if (definition.Length == 2)
-        {
-            var key = definition[0];
-            var val = definition[1];
-
-            return (key, val);
-        }
-
-        return null;
-    }
-
     private static (string, string?)? GetKeyValuePair(string value, params char[] c)
     {
-        char? currentSeparator = DetermineSeparator(value, c);
-        return GetKeyValuePair(value, currentSeparator);
+        char? currentSeparator = KeyValuePairHelper.DetermineSeparator(value, c);
+        return KeyValuePairHelper.GetKeyValuePair(value, currentSeparator);
     }
 
     public const string DISPLAY_NAME = "DEFINE";

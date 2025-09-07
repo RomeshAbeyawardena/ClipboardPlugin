@@ -83,5 +83,8 @@ public record ClipboardArguments : IHelpContextArgument
     [Argument("ls")]
     public int? List { get; set; }
 
+    [Argument("p")]
+    public string? Parameters { get; set; }
+
     public IEnumerable<string> Arguments { get; }
 }

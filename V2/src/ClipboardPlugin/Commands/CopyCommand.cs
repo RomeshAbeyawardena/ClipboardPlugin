@@ -1,6 +1,7 @@
 ﻿using ClipboardPlugin.Actions;
 using ClipboardPlugin.Actions.Copying;
 using ClipboardPlugin.Actions.Text;
+using ClipboardPlugin.Extensions;
 using ClipboardPlugin.Properties;
 using ClipboardPlugin.Repositories;
 
@@ -38,7 +39,17 @@ internal class CopyCommand(IIoStream ioStream,
             await textActionInvoker.ExecuteAsync(textAction, arguments, cancellationToken);
         }
 
-        var placeholders = await keyValueRepository.GetAsync(null, null, cancellationToken);
+        var placeholders = (await keyValueRepository.GetAsync(null, null, cancellationToken)).ToList();
+
+        if (!string.IsNullOrWhiteSpace(arguments.Parameters))
+        {
+            var parameters = KeyValuePairHelper.GetKeyValuePairs(arguments.Parameters.Split(' '), '=', ':');
+
+            if (parameters is not null && parameters.Any(x => x.HasValue))
+            {
+                placeholders.AddRange(parameters.Where(x => x.HasValue).Select(x => x!.Value));
+            }
+        }
 
         arguments.Input = ReplacePlaceholders(arguments.Input, placeholders.ToDictionary());
 
