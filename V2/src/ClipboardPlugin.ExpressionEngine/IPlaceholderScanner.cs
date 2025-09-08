@@ -14,7 +14,7 @@ internal class PlaceholderScanner : IPlaceholderScanner
         do
         {
             lastIndex = value.IndexOf(character, lastIndex + 1);
-            if (lastIndex > 0)
+            if (lastIndex >= 0)
             {
                 ranges.Add(lastIndex);
             }
@@ -53,6 +53,7 @@ internal class PlaceholderScanner : IPlaceholderScanner
         foreach (var index in indices)
         {
             var (offset, length) = index.GetOffsetAndLength(span.Length);
+            //captures everything inside of {}
             placeholderExpressions.Add((index, new string(span.Slice(offset + 1, length - 1))));
         }
 

@@ -40,16 +40,9 @@ public class Tests
     [Test]
     public void Test2()
     {
-        PlaceholderScanner scanner = new PlaceholderScanner();
-        var target = "text {code} some other text {code 2}";
-        var indices = scanner.ScanRanges(target,'{', '}');
-
-        var span = target.AsSpan();
-        foreach(var index in indices)
-        {
-            var (offset, length) = index.GetOffsetAndLength(target.Length);
-            var m = span.Slice(offset + 1, length -1);
-        }
-
+        PlaceholderScanner scanner = new();
+        var target = "{a} text {code} some other text {code 2}";
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.Pass();
     }
 }
