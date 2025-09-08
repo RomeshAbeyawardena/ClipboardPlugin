@@ -11,7 +11,7 @@ public class TestTimeProvider(DateTimeOffset dateTimeOffset) : TimeProvider
     }
 }
 
-public class Tests
+public class PlaceholderScannerTests
 {
     private CultureInfo culture;
     private ConfigurationExpressionEngine sut;
@@ -28,7 +28,7 @@ public class Tests
     }
 
     [Test]
-    public async Task Test1()
+    public async Task Now_Expression()
     {
         var u = sut.Expression("now", culture);
         var t = await u.EvaluateAsync();
@@ -38,11 +38,20 @@ public class Tests
     }
 
     [Test]
-    public void Test2()
+    public void GetPlaceholderExpressions()
     {
         PlaceholderScanner scanner = new();
         var target = "{a} text {code} some other text {code 2}";
         var results = scanner.GetPlaceholderExpressions(target, '{', '}');
-        Assert.Pass();
+        Assert.That(results.Select(x => x.Item2), Contains.Item("a"));
+        Assert.That(results.Select(x => x.Item2), Contains.Item("code"));
+        Assert.That(results.Select(x => x.Item2), Contains.Item("code 2"));
+
+        target = "{a text {code some other text} {code 2";
+        
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            results = scanner.GetPlaceholderExpressions(target, '{', '}'));
+
     }
 }
+
