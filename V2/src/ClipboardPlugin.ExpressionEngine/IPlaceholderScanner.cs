@@ -1,4 +1,6 @@
-﻿namespace ClipboardPlugin.ExpressionEngine;
+﻿using System.Security.AccessControl;
+
+namespace ClipboardPlugin.ExpressionEngine;
 
 public interface IPlaceholderScanner
 {
@@ -7,6 +9,39 @@ public interface IPlaceholderScanner
 
 internal class PlaceholderScanner : IPlaceholderScanner
 {
+    private static bool Validate(string value, char startChar, char endChar)
+    {
+        var charSpan = value.AsSpan();
+        var startCharOpen = false;
+        var currentchar = charSpan[0];
+        for (var i = 1; i < charSpan.Length; i++) 
+        {
+            if (!startCharOpen && currentchar == startChar)
+            {
+                startCharOpen = true;
+                continue;
+            }
+            else if (currentchar == startChar)
+            {
+                return false;
+            }
+
+            if (currentchar == endChar && startCharOpen)
+            {
+                startCharOpen = false;
+                continue;
+            }
+            else if(currentchar == endChar)
+            {
+                return false;
+            }
+
+            currentchar = charSpan[i];
+        }
+
+        return true;
+    }
+
     private static int[] GetRanges(string value, char character)
     {
         List<int> ranges = [];
@@ -26,7 +61,14 @@ internal class PlaceholderScanner : IPlaceholderScanner
 
     public IEnumerable<Range> ScanRanges(string value, char startChar, char endChar)
     {
-        
+
+        var isValid = Validate(value, startChar, endChar);
+
+        if (!isValid)
+        {
+            throw new IndexOutOfRangeException("Start and end ranges don't match, ensure one of each start and end character are supplied");
+        }
+
         var startRanges = GetRanges(value, startChar);
         var endRanges = GetRanges(value, endChar);
         

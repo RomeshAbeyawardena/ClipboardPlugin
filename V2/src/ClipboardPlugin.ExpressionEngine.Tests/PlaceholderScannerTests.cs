@@ -47,7 +47,7 @@ public class PlaceholderScannerTests
         Assert.That(results.Select(x => x.Item2), Contains.Item("code"));
         Assert.That(results.Select(x => x.Item2), Contains.Item("code 2"));
 
-        target = "{a text {code some other text} {code 2";
+        target = "{a text {code some other text} code 2}";
         
         Assert.Throws<IndexOutOfRangeException>(() =>
             results = scanner.GetPlaceholderExpressions(target, '{', '}'));
