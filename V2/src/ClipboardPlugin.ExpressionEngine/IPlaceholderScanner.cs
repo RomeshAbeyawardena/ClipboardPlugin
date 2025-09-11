@@ -98,6 +98,11 @@ internal class PlaceholderScanner : IPlaceholderScanner
 
     public IEnumerable<(Range, string)> GetPlaceholderExpressions(string value, char startChar, char endChar)
     {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return [];
+        }
+
         var indices = ScanRanges(value, startChar, endChar);
         var span = value.AsSpan();
         var placeholderExpressions = new List<(Range, string)>();

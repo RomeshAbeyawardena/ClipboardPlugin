@@ -11,6 +11,7 @@ public class TestTimeProvider(DateTimeOffset dateTimeOffset) : TimeProvider
     }
 }
 
+[TestFixture]
 public class PlaceholderScannerTests
 {
     private CultureInfo culture;
@@ -56,6 +57,80 @@ public class PlaceholderScannerTests
 
         Assert.Throws<IndexOutOfRangeException>(() =>
             results = scanner.GetPlaceholderExpressions(target, '{', '}'));
+    }
+
+    [Test]
+    public void EmptyInput()
+    {
+        PlaceholderScanner scanner = new();
+        var target = string.Empty;
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.That(results, Is.Empty);
+    }
+
+    [Test]
+    public void NoPlaceholders()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "This is a test string with no placeholders.";
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.That(results, Is.Empty);
+    }
+
+    [Test]
+    public void NestedPlaceholders()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "{a {nested} placeholder}";
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            scanner.GetPlaceholderExpressions(target, '{', '}'));
+    }
+
+    [Test]
+    public void UnmatchedStartCharacter()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "{a placeholder with no end";
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            scanner.GetPlaceholderExpressions(target, '{', '}'));
+    }
+
+    [Test]
+    public void UnmatchedEndCharacter()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "a placeholder with no start}";
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            scanner.GetPlaceholderExpressions(target, '{', '}'));
+    }
+
+    [Test]
+    public void SinglePlaceholder()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "{single}";
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.That(results.Count(), Is.EqualTo(1));
+        Assert.That(results.First().Item2, Is.EqualTo("single"));
+    }
+
+    [Test]
+    public void SpecialCharactersInPlaceholder()
+    {
+        PlaceholderScanner scanner = new();
+        var target = "{!@#$%^&*()}";
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.That(results.Count(), Is.EqualTo(1));
+        Assert.That(results.First().Item2, Is.EqualTo("!@#$%^&*()"));
+    }
+
+    [Test]
+    public void LargeInputPerformance()
+    {
+        PlaceholderScanner scanner = new();
+        var target = string.Concat(Enumerable.Repeat("{placeholder}", 10000));
+        var results = scanner.GetPlaceholderExpressions(target, '{', '}');
+        Assert.That(results.Count(), Is.EqualTo(10000));
     }
 }
 
