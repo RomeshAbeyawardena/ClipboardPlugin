@@ -14,34 +14,38 @@ internal class PlaceholderScanner : IPlaceholderScanner
         var charSpan = value.AsSpan();
         var startCharOpen = false;
         var currentchar = charSpan[0];
-        for (var i = 1; i < charSpan.Length; i++) 
-        {
-            try
-            {
-                if (!startCharOpen && currentchar == startChar)
-                {
-                    startCharOpen = true;
-                    continue;
-                }
-                else if (currentchar == startChar)
-                {
-                    return false;
-                }
 
-                if (currentchar == endChar && startCharOpen)
-                {
-                    startCharOpen = false;
-                    continue;
-                }
-                else if (currentchar == endChar)
-                {
-                    return false;
-                }
-            }
-            finally
+        void GetNextChar(ReadOnlySpan<char> charSpan, int index)
+        {
+            currentchar = charSpan[index];
+        }
+
+        for (var i = 1; i < charSpan.Length; i++)
+        {
+
+            if (!startCharOpen && currentchar == startChar)
             {
-                currentchar = charSpan[i];
+                startCharOpen = true;
+                GetNextChar(charSpan, i);
+                continue;
             }
+            else if (currentchar == startChar)
+            {
+                return false;
+            }
+
+            if (currentchar == endChar && startCharOpen)
+            {
+                startCharOpen = false;
+                GetNextChar(charSpan, i);
+                continue;
+            }
+            else if (currentchar == endChar)
+            {
+                return false;
+            }
+
+            GetNextChar(charSpan, i);
         }
 
         return true;
@@ -76,7 +80,7 @@ internal class PlaceholderScanner : IPlaceholderScanner
 
         var startRanges = GetRanges(value, startChar);
         var endRanges = GetRanges(value, endChar);
-        
+
         if (startRanges.Length != endRanges.Length)
         {
             throw new IndexOutOfRangeException("Start and end ranges don't match, ensure one of each start and end character are supplied");
@@ -85,7 +89,7 @@ internal class PlaceholderScanner : IPlaceholderScanner
         var ranges = new List<Range>();
         for (int i = 0; i < startRanges.Length; i++)
         {
-            ranges.Add(new Range(new Index(startRanges.ElementAt(i)), 
+            ranges.Add(new Range(new Index(startRanges.ElementAt(i)),
                 new Index(endRanges.ElementAt(i))));
         }
 

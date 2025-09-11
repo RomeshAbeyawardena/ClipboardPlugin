@@ -52,6 +52,10 @@ public class PlaceholderScannerTests
         Assert.Throws<IndexOutOfRangeException>(() =>
             results = scanner.GetPlaceholderExpressions(target, '{', '}'));
 
+        target = "{a} text {code some other text} code 2}";
+
+        Assert.Throws<IndexOutOfRangeException>(() =>
+            results = scanner.GetPlaceholderExpressions(target, '{', '}'));
     }
 }
 
