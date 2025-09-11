@@ -1,12 +1,37 @@
-﻿using NCalc;
+﻿using ClipboardPlugin.Abstractions.Expressions;
+using NCalc;
 using System.Globalization;
 namespace ClipboardPlugin.ExpressionEngine;
 
-public class ConfigurationExpressionEngine(TimeProvider timeProvider)
+public class ConfigurationExpressionEngine(TimeProvider timeProvider, 
+    IPlaceholderScanner placeholderScanner, IApplicationSettings applicationSettings)
 {
     private ValueTask<DateTimeOffset> NowAsync(AsyncExpressionParameterData asyncExpressionParameter)
     {
         return ValueTask.FromResult(timeProvider.GetUtcNow());
+    }
+
+    public async Task<string> Resolve(string value, CultureInfo culture)
+    {
+        foreach(var (r,exp) in placeholderScanner.GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder))
+        {
+            if (string.IsNullOrWhiteSpace(exp))
+            {
+                continue;
+            }
+
+            var result = await Expression(exp, culture).EvaluateAsync();
+
+            if (result is null)
+            {
+                continue;
+            }
+
+            value = value.Remove(r.Start.Value, r.End.Value);
+            value = value.Insert(r.Start.Value, result.ToString() ?? string.Empty);
+        }
+
+        return value;
     }
 
     public AsyncExpression Expression(string expression, CultureInfo culture)

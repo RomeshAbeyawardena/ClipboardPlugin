@@ -8,4 +8,7 @@
   <ItemGroup>
     <PackageReference Include="NCalcAsync" Version="5.6.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClipboardPlugin\ClipboardPlugin.csproj" />
+  </ItemGroup>
 </Project>

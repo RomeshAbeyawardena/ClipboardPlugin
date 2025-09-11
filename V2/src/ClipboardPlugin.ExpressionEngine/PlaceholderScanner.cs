@@ -1,11 +1,6 @@
-﻿using System.Security.AccessControl;
+﻿using ClipboardPlugin.Abstractions.Expressions;
 
 namespace ClipboardPlugin.ExpressionEngine;
-
-public interface IPlaceholderScanner
-{
-    IEnumerable<Range> ScanRanges(string value, char startChar, char endChar);
-}
 
 internal class PlaceholderScanner : IPlaceholderScanner
 {
