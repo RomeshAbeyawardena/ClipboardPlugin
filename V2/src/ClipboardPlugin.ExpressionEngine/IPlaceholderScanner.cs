@@ -16,27 +16,32 @@ internal class PlaceholderScanner : IPlaceholderScanner
         var currentchar = charSpan[0];
         for (var i = 1; i < charSpan.Length; i++) 
         {
-            if (!startCharOpen && currentchar == startChar)
+            try
             {
-                startCharOpen = true;
-                continue;
-            }
-            else if (currentchar == startChar)
-            {
-                return false;
-            }
+                if (!startCharOpen && currentchar == startChar)
+                {
+                    startCharOpen = true;
+                    continue;
+                }
+                else if (currentchar == startChar)
+                {
+                    return false;
+                }
 
-            if (currentchar == endChar && startCharOpen)
-            {
-                startCharOpen = false;
-                continue;
+                if (currentchar == endChar && startCharOpen)
+                {
+                    startCharOpen = false;
+                    continue;
+                }
+                else if (currentchar == endChar)
+                {
+                    return false;
+                }
             }
-            else if(currentchar == endChar)
+            finally
             {
-                return false;
+                currentchar = charSpan[i];
             }
-
-            currentchar = charSpan[i];
         }
 
         return true;
