@@ -10,7 +10,6 @@ internal class ConfigurationExpressionEngineTests
 {
     private ConfigurationExpressionEngine engine;
     private DateTimeOffset utcNow;
-    private Mock<ILogger<IExpressionEngine>> logger;
     private Mock<IApplicationSettings> applicationSettings;
     private CultureInfo culture;
 
@@ -22,9 +21,9 @@ internal class ConfigurationExpressionEngineTests
 
         applicationSettings.Setup(x => x.StartPlaceholder).Returns('{');
         applicationSettings.Setup(x => x.EndPlaceholder).Returns('}');
-        logger = new();
+        
         culture = CultureInfo.CreateSpecificCulture("en-gb");
-        engine = new(new TestTimeProvider(utcNow), logger.Object, new PlaceholderScanner(), applicationSettings.Object, culture);
+        engine = new(new TestTimeProvider(utcNow), new PlaceholderScanner(), applicationSettings.Object, culture);
         
     }
 

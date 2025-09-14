@@ -1,14 +1,15 @@
-﻿using ClipboardPlugin.Properties;
+﻿using ClipboardPlugin.Abstractions.Expressions;
+using ClipboardPlugin.Properties;
 
 namespace ClipboardPlugin.Commands;
 
-internal class VersionCommand(IIoStream ioStream) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME)
+internal class VersionCommand(IIoStream ioStream, IExpressionEngine expressionEngine) : HelpContextCommandBase<ClipboardArguments>(DISPLAY_NAME)
 {
     public const string DISPLAY_NAME = "version";
 
-    public override Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
+    public override async Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        return ioStream.Out.WriteLineAsync(ReplacePlaceholders(Resources.VersionHelp));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.VersionHelp, expressionEngine));
     }
 
     public override bool CanExecute(ClipboardArguments arguments)
@@ -18,6 +19,6 @@ internal class VersionCommand(IIoStream ioStream) : HelpContextCommandBase<Clipb
 
     public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await ioStream.Out.WriteLineAsync(ReplacePlaceholders(Resources.VersionInfo));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.VersionInfo, expressionEngine));
     }
 }

@@ -1,15 +1,16 @@
-﻿using ClipboardPlugin.Properties;
+﻿using ClipboardPlugin.Abstractions.Expressions;
+using ClipboardPlugin.Properties;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ClipboardPlugin.Commands;
 
-internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider) : CommandBase<ClipboardArguments>(DISPLAY_NAME)
+internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider, IExpressionEngine expressionEngine) : CommandBase<ClipboardArguments>(DISPLAY_NAME)
 {
     public const string DISPLAY_NAME = "help";
     private async Task RenderHelp(CancellationToken cancellationToken)
     {
         var commands = serviceProvider.GetServices<ICommand<ClipboardArguments>>();
-        await ioStream.Out.WriteLineAsync(ReplacePlaceholders(Resources.GeneralHelp));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.GeneralHelp, expressionEngine));
         foreach (var command in commands.OrderBy(x => x.Priority))
         {
             if(command is HelpContextCommandBase<ClipboardArguments> helpContext)

@@ -86,6 +86,6 @@ internal class JsonFileKeyValueRepository(string path, IFileProvider fileProvide
             ? jsonKeyValueCache.Take(take.Value) 
             : jsonKeyValueCache;
 
-        return result.Select((key) => (key.Key, (string?)key.Value)).ToArray();
+        return [.. result.Select((key) => (key.Key, (string?)key.Value))];
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using ClipboardPlugin.Abstractions.Expressions;
+using NCalc;
+using System.Reflection;
 
 namespace ClipboardPlugin.Commands;
 
@@ -7,27 +9,40 @@ public abstract class CommandBase<TArguments>(string name, int? priority = null)
     public string Name => name;
     public int Priority => priority.GetValueOrDefault();
 
-    protected string ReplacePlaceholders(string value, IDictionary<string, string?>? externalPlaceholders = null)
+    protected void ExtendExpressionEngine(IExpressionEngine expressionEngine, Action<ExpressionContextBase> extend)
     {
         var appName = Assembly.GetEntryAssembly()?.GetName();
-
-        externalPlaceholders ??= new Dictionary<string,string?>();
-
-        IReadOnlyDictionary<string, string?> allPlaceholders
-            = new Dictionary<string, string?>(externalPlaceholders)
+        expressionEngine.Extend(e =>
         {
-            { "app", appName?.Name },
-            { "version", appName?.Version?.ToString() }
-        };
+            e.StaticParameters ??= new Dictionary<string, object?>();
+            e.StaticParameters.TryAdd("app", appName?.Name);
+            e.StaticParameters.TryAdd("version", appName?.Version?.ToString());
+            extend(e);
+        });
+    }
 
-        var replacedValue = value;
+    protected async Task<string> ReplacePlaceholders(string value, IExpressionEngine expressionEngine, IDictionary<string, string?>? externalPlaceholders = null)
+    {
+        ExtendExpressionEngine(expressionEngine, e => { 
+            e.StaticParameters ??= new Dictionary<string, object?>();
+            var placeholders = externalPlaceholders;
+            if (placeholders is not null)
+            {
+                foreach (var (key, val) in placeholders)
+                {
+                    if (!e.StaticParameters.Remove(key))
+                    {
+                        e.StaticParameters[key] = value;
+                    }
+                    else
+                    {
+                        e.StaticParameters.TryAdd(key, val);
+                    }
+                }
+            }
+        });
 
-        foreach(var items in allPlaceholders)
-        {
-            replacedValue = replacedValue.Replace($"{{{items.Key}}}", items.Value);
-        }
-
-        return replacedValue;
+        return await expressionEngine.ResolveAsync(value);
     }
 
     public virtual bool CanExecute(TArguments arguments)
