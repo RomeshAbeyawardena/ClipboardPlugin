@@ -23,18 +23,19 @@ internal class ConfigurationExpressionEngineTests
         applicationSettings.Setup(x => x.StartPlaceholder).Returns('{');
         applicationSettings.Setup(x => x.EndPlaceholder).Returns('}');
         logger = new();
-        engine = new(new TestTimeProvider(utcNow), logger.Object, new PlaceholderScanner(), applicationSettings.Object);
         culture = CultureInfo.CreateSpecificCulture("en-gb");
+        engine = new(new TestTimeProvider(utcNow), logger.Object, new PlaceholderScanner(), applicationSettings.Object, culture);
+        
     }
 
     [Test]
     public async Task Test1()
     {
-        var result = await engine.ResolveAsync("{now}", culture);
+        var result = await engine.ResolveAsync("{now}");
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo("12/09/2024 12:30:23 +00:00"));
 
-        result = await engine.ResolveAsync("{parseDate(now,'dd-MM-yyyy')}", culture);
+        result = await engine.ResolveAsync("{parseDate(now,'dd-MM-yyyy')}");
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo("12-09-2024"));
     }

@@ -3,22 +3,57 @@ using Microsoft.Extensions.Logging;
 using NCalc;
 using System.Collections.Concurrent;
 using System.Globalization;
+using System.Linq.Expressions;
 
 namespace ClipboardPlugin.ExpressionEngine;
 
-public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IExpressionEngine> logger,
-    IPlaceholderScanner placeholderScanner, IApplicationSettings applicationSettings) : IExpressionEngine
+public class ConfigurationExpressionEngine : IExpressionEngine
 {
-    private ValueTask<DateTimeOffset> NowAsync(AsyncExpressionParameterData asyncExpressionParameter)
+    private readonly AsyncExpressionContext _expressionContext;
+    private readonly TimeProvider _timeProvider;
+    private readonly ILogger<IExpressionEngine> _logger;
+    private readonly IPlaceholderScanner _placeholderScanner;
+    private readonly IApplicationSettings _applicationSettings;
+    
+    public ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IExpressionEngine> logger,
+        IPlaceholderScanner placeholderScanner, IApplicationSettings applicationSettings, CultureInfo culture)
     {
-        logger.LogInformation("{Id}", asyncExpressionParameter.Id);
-        return ValueTask.FromResult(timeProvider.GetUtcNow());
+        _timeProvider = timeProvider;
+        _logger = logger;
+        _placeholderScanner = placeholderScanner;
+        _applicationSettings = applicationSettings;
+        
+        _expressionContext =  new AsyncExpressionContext(ExpressionOptions.None, culture);
+        _expressionContext.DynamicParameters.Add("now", async (a) => await NowAsync(a));
+
+        _expressionContext.Functions.Add("parseDate", async (x) => {
+            var value = x.FirstOrDefault() ?? throw new ArgumentNullException(nameof(x));
+            var format = x.ElementAtOrDefault(1) ?? throw new ArgumentNullException(nameof(x));
+
+            var v = await value.EvaluateAsync();
+            var f = await format.EvaluateAsync();
+            var formatStr = f?.ToString();
+            if (DateTimeOffset.TryParse(v?.ToString(), culture, out var m))
+            {
+                return !string.IsNullOrWhiteSpace(formatStr)
+                ? m.ToString(formatStr, culture)
+                : m.ToString(culture);
+            }
+
+            return "?INVALID_DATE!";
+        });
     }
 
-    public async Task<string> ResolveAsync(string value, CultureInfo culture)
+    private ValueTask<DateTimeOffset> NowAsync(AsyncExpressionParameterData asyncExpressionParameter)
     {
-        var expressions = new ConcurrentQueue<(Range, string)>(placeholderScanner
-            .GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder));
+        _logger.LogInformation("{Id}", asyncExpressionParameter.Id);
+        return ValueTask.FromResult(_timeProvider.GetUtcNow());
+    }
+
+    public async Task<string> ResolveAsync(string value)
+    {
+        var expressions = new ConcurrentQueue<(Range, string)>(_placeholderScanner
+            .GetPlaceholderExpressions(value, _applicationSettings.StartPlaceholder, _applicationSettings.EndPlaceholder));
 
         while(expressions.TryDequeue(out var item))
         {
@@ -29,7 +64,7 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
                 continue;
             }
 
-            var result = await Expression(expression, culture).EvaluateAsync();
+            var result = await new AsyncExpression(expression, _expressionContext).EvaluateAsync();
 
             if (result is null)
             {
@@ -43,27 +78,4 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
         return value;
     }
 
-    public AsyncExpression Expression(string expression, CultureInfo culture)
-    {
-        var expr =  new AsyncExpression(expression, ExpressionOptions.None, culture);
-        expr.DynamicParameters.Add("now", async (a) => await NowAsync(a));
-
-        expr.Functions.Add("parseDate", async (x) => {
-            var value = x.FirstOrDefault() ?? throw new ArgumentNullException(nameof(expression));
-            var format = x.ElementAtOrDefault(1) ?? throw new ArgumentNullException(nameof(expression));
-
-            var v = await value.EvaluateAsync();
-            var f = await format.EvaluateAsync();
-            var formatStr = f?.ToString();
-            if (DateTimeOffset.TryParse(v?.ToString(), culture, out var m))
-            {
-                return !string.IsNullOrWhiteSpace(formatStr) 
-                ? m.ToString(formatStr, culture) 
-                : m.ToString(culture);
-            }
-
-            return "?INVALID_DATE!";
-        });
-        return expr;
-    }
 }
