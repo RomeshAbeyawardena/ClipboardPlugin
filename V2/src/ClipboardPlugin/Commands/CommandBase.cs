@@ -21,7 +21,7 @@ public abstract class CommandBase<TArguments>(string name, int? priority = null)
         });
     }
 
-    protected async Task<string> ReplacePlaceholders(string value, IExpressionEngine expressionEngine, IDictionary<string, string?>? externalPlaceholders = null)
+    protected async Task<string> ReplacePlaceholdersAsync(string value, IExpressionEngine expressionEngine, IDictionary<string, string?>? externalPlaceholders = null)
     {
         ExtendExpressionEngine(expressionEngine, e => { 
             e.StaticParameters ??= new Dictionary<string, object?>();

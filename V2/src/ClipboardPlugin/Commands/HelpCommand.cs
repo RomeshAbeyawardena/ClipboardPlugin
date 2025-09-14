@@ -10,7 +10,7 @@ internal class HelpCommand(IIoStream ioStream, IServiceProvider serviceProvider,
     private async Task RenderHelp(CancellationToken cancellationToken)
     {
         var commands = serviceProvider.GetServices<ICommand<ClipboardArguments>>();
-        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.GeneralHelp, expressionEngine));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholdersAsync(Resources.GeneralHelp, expressionEngine));
         foreach (var command in commands.OrderBy(x => x.Priority))
         {
             if(command is HelpContextCommandBase<ClipboardArguments> helpContext)

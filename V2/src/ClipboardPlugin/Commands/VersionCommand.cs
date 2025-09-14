@@ -9,7 +9,7 @@ internal class VersionCommand(IIoStream ioStream, IExpressionEngine expressionEn
 
     public override async Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.VersionHelp, expressionEngine));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholdersAsync(Resources.VersionHelp, expressionEngine));
     }
 
     public override bool CanExecute(ClipboardArguments arguments)
@@ -19,6 +19,6 @@ internal class VersionCommand(IIoStream ioStream, IExpressionEngine expressionEn
 
     public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.VersionInfo, expressionEngine));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholdersAsync(Resources.VersionInfo, expressionEngine));
     }
 }

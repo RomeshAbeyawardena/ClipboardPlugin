@@ -21,7 +21,7 @@ internal class CopyCommand(IIoStream ioStream, IApplicationSettings applicationS
 
     public override async Task RenderContextHelpAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
     {
-        await ioStream.Out.WriteLineAsync(await ReplacePlaceholders(Resources.CopyHelp, expressionEngine));
+        await ioStream.Out.WriteLineAsync(await ReplacePlaceholdersAsync(Resources.CopyHelp, expressionEngine));
     }
 
     public override async Task OnExecuteAsync(ClipboardArguments arguments, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ internal class CopyCommand(IIoStream ioStream, IApplicationSettings applicationS
             }
         }
 
-        arguments.Input = await ReplacePlaceholders(arguments.Input, expressionEngine, placeholders.ToDictionary());
+        arguments.Input = await ReplacePlaceholdersAsync(arguments.Input, expressionEngine, placeholders.ToDictionary());
 
         await ioStream.Out.WriteLineAsync($"Copying {arguments.Input} to {action}");
         await copyActionInvoker.ExecuteAsync(action, arguments, cancellationToken);
