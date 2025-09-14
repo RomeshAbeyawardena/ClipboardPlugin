@@ -1,5 +1,6 @@
 ﻿ // See https://aka.ms/new-console-template for more information
 using ClipboardPlugin;
+using ClipboardPlugin.ExpressionEngine.Extensions;
 using ClipboardPlugin.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         .AddSingleton((s) => new ClipboardArguments(args))
         .AddCommands()
         .AddServices()
+        .AddConfigurationExpressionEngine()
         .AddSingleton(s => IoStream.ConsoleStream());
 }
 

@@ -1,13 +1,15 @@
 ﻿using ClipboardPlugin.Abstractions.Expressions;
+using Microsoft.Extensions.Logging;
 using NCalc;
 using System.Globalization;
 namespace ClipboardPlugin.ExpressionEngine;
 
-public class ConfigurationExpressionEngine(TimeProvider timeProvider, 
-    IPlaceholderScanner placeholderScanner, IApplicationSettings applicationSettings)
+public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IExpressionEngine> logger,
+    IPlaceholderScanner placeholderScanner, IApplicationSettings applicationSettings) : IExpressionEngine
 {
     private ValueTask<DateTimeOffset> NowAsync(AsyncExpressionParameterData asyncExpressionParameter)
     {
+        logger.LogInformation("{Id}", asyncExpressionParameter.Id);
         return ValueTask.FromResult(timeProvider.GetUtcNow());
     }
 
