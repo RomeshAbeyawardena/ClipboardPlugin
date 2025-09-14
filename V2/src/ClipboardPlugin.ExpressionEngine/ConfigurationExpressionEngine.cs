@@ -29,7 +29,7 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
                 continue;
             }
 
-            value = value.Remove(r.Start.Value, r.End.Value);
+            value = value.Remove(r.Start.Value, exp.Length);
             value = value.Insert(r.Start.Value, result.ToString() ?? string.Empty);
         }
 
