@@ -17,7 +17,7 @@ internal class ConfigurationExpressionEngineTests
     [SetUp]
     public void SetUp()
     {
-        utcNow = new DateTimeOffset(2024, 12, 12, 12, 30, 23, TimeSpan.Zero);
+        utcNow = new DateTimeOffset(2024, 09, 12, 12, 30, 23, TimeSpan.Zero);
         applicationSettings = new();
 
         applicationSettings.Setup(x => x.StartPlaceholder).Returns('{');
@@ -32,6 +32,10 @@ internal class ConfigurationExpressionEngineTests
     {
         var result = await engine.Resolve("{now}", culture);
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.EqualTo("12/12/2024 12:30:23 +00:00"));
+        Assert.That(result, Is.EqualTo("12/09/2024 12:30:23 +00:00"));
+
+        result = await engine.Resolve("{parseDate(now,'dd-MM-yyyy')}", culture);
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.EqualTo("12-09-2024"));
     }
 }
