@@ -10,4 +10,6 @@ internal class ConfigurationBasedApplicationSettings : IApplicationSettings
     }
 
     public required IEnumerable<char> KeyValueSeparators { get; set; }
+    public char StartPlaceholder { get; }
+    public char EndPlaceholder { get; }
 }
