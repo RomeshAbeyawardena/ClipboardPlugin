@@ -1,7 +1,9 @@
 ﻿using ClipboardPlugin.Abstractions.Expressions;
 using Microsoft.Extensions.Logging;
 using NCalc;
+using System.Collections.Concurrent;
 using System.Globalization;
+
 namespace ClipboardPlugin.ExpressionEngine;
 
 public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IExpressionEngine> logger,
@@ -13,25 +15,29 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
         return ValueTask.FromResult(timeProvider.GetUtcNow());
     }
 
-    public async Task<string> Resolve(string value, CultureInfo culture)
+    public async Task<string> ResolveAsync(string value, CultureInfo culture)
     {
-        var expressions = placeholderScanner.GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder);
-        foreach (var (r,exp) in expressions)
+        var expressions = new ConcurrentQueue<(Range, string)>(placeholderScanner
+            .GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder));
+
+        while(expressions.TryDequeue(out var item))
         {
-            if (string.IsNullOrWhiteSpace(exp))
+            var (range, expression) = item;
+        
+            if (string.IsNullOrWhiteSpace(expression))
             {
                 continue;
             }
 
-            var result = await Expression(exp, culture).EvaluateAsync();
+            var result = await Expression(expression, culture).EvaluateAsync();
 
             if (result is null)
             {
                 continue;
             }
 
-            value = value.Remove(r.Start.Value, exp.Length + 2);
-            value = value.Insert(r.Start.Value, result.ToString() ?? string.Empty);
+            value = value.Remove(range.Start.Value, expression.Length + 2);
+            value = value.Insert(range.Start.Value, result.ToString() ?? string.Empty);
         }
 
         return value;

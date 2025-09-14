@@ -4,5 +4,5 @@ namespace ClipboardPlugin.Abstractions.Expressions;
 
 public interface IExpressionEngine
 {
-    Task<string> Resolve(string value, CultureInfo culture);
+    Task<string> ResolveAsync(string value, CultureInfo culture);
 }

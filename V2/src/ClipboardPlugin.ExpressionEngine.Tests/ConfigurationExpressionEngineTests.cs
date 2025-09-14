@@ -30,11 +30,11 @@ internal class ConfigurationExpressionEngineTests
     [Test]
     public async Task Test1()
     {
-        var result = await engine.Resolve("{now}", culture);
+        var result = await engine.ResolveAsync("{now}", culture);
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo("12/09/2024 12:30:23 +00:00"));
 
-        result = await engine.Resolve("{parseDate(now,'dd-MM-yyyy')}", culture);
+        result = await engine.ResolveAsync("{parseDate(now,'dd-MM-yyyy')}", culture);
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.EqualTo("12-09-2024"));
     }
