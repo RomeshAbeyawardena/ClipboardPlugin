@@ -15,7 +15,8 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
 
     public async Task<string> Resolve(string value, CultureInfo culture)
     {
-        foreach(var (r,exp) in placeholderScanner.GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder))
+        var expressions = placeholderScanner.GetPlaceholderExpressions(value, applicationSettings.StartPlaceholder, applicationSettings.EndPlaceholder);
+        foreach (var (r,exp) in expressions)
         {
             if (string.IsNullOrWhiteSpace(exp))
             {
@@ -29,7 +30,7 @@ public class ConfigurationExpressionEngine(TimeProvider timeProvider, ILogger<IE
                 continue;
             }
 
-            value = value.Remove(r.Start.Value, exp.Length);
+            value = value.Remove(r.Start.Value, exp.Length + 2);
             value = value.Insert(r.Start.Value, result.ToString() ?? string.Empty);
         }
 

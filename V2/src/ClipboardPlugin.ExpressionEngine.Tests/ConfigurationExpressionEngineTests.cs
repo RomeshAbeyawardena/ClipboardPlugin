@@ -19,6 +19,9 @@ internal class ConfigurationExpressionEngineTests
     {
         utcNow = new DateTimeOffset(2024, 12, 12, 12, 30, 23, TimeSpan.Zero);
         applicationSettings = new();
+
+        applicationSettings.Setup(x => x.StartPlaceholder).Returns('{');
+        applicationSettings.Setup(x => x.EndPlaceholder).Returns('}');
         logger = new();
         engine = new(new TestTimeProvider(utcNow), logger.Object, new PlaceholderScanner(), applicationSettings.Object);
         culture = CultureInfo.CreateSpecificCulture("en-gb");
@@ -27,8 +30,8 @@ internal class ConfigurationExpressionEngineTests
     [Test]
     public async Task Test1()
     {
-        var result = await engine.Resolve("{utcNow}", culture);
+        var result = await engine.Resolve("{now}", culture);
         Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.EqualTo(""));
+        Assert.That(result, Is.EqualTo("12/12/2024 12:30:23 +00:00"));
     }
 }
