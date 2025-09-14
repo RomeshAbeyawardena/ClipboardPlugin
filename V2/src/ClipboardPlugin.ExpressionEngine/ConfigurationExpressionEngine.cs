@@ -73,8 +73,8 @@ public class ConfigurationExpressionEngine : IExpressionEngine
         return value;
     }
 
-    public void Extend(Action<ExpressionContextBase> expressionContext)
+    public void Extend(Action<ExpressionContextBase> config)
     {
-        throw new NotImplementedException();
+        config(_expressionContext);
     }
 }
