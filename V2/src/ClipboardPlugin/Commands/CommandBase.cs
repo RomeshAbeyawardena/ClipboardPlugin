@@ -30,14 +30,11 @@ public abstract class CommandBase<TArguments>(string name, int? priority = null)
             {
                 foreach (var (key, val) in placeholders)
                 {
-                    if (!e.StaticParameters.Remove(key))
+                    if (!e.StaticParameters.TryAdd(key, val))
                     {
-                        e.StaticParameters[key] = value;
+                        e.StaticParameters[key] = val;
                     }
-                    else
-                    {
-                        e.StaticParameters.TryAdd(key, val);
-                    }
+                    
                 }
             }
         });

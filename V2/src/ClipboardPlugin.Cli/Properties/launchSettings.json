@@ -2,7 +2,7 @@
   "profiles": {
     "ClipboardPlugin.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "-i {now}"
+      "commandLineArgs": "-i {date} -p \"date:{now}\""
     }
   }
 }
