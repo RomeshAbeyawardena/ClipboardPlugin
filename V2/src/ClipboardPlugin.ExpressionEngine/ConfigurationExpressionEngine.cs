@@ -41,7 +41,6 @@ public class ConfigurationExpressionEngine : IExpressionEngine
 
     private ValueTask<DateTimeOffset> NowAsync(AsyncExpressionParameterData asyncExpressionParameter)
     {
-        //_logger.LogInformation("{Id}", asyncExpressionParameter.Id);
         return ValueTask.FromResult(_timeProvider.GetUtcNow());
     }
 
@@ -71,7 +70,7 @@ public class ConfigurationExpressionEngine : IExpressionEngine
             value = value.Insert(range.Start.Value, result.ToString() ?? string.Empty);
         }
 
-        if (currentRecursion++ < 20)
+        if (currentRecursion++ < _applicationSettings.RecursionLevel.GetValueOrDefault(20))
         {
             value = await ResolveAsync(value);
         }
