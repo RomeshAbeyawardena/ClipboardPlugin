@@ -45,6 +45,7 @@ public class ConfigurationExpressionEngine : IExpressionEngine
         return ValueTask.FromResult(_timeProvider.GetUtcNow());
     }
 
+    int currentRecursion = 0;
     public async Task<string> ResolveAsync (string value)
     {
         var expressions = new ConcurrentQueue<(Range, string)>(_placeholderScanner
@@ -68,6 +69,15 @@ public class ConfigurationExpressionEngine : IExpressionEngine
 
             value = value.Remove(range.Start.Value, expression.Length + 2);
             value = value.Insert(range.Start.Value, result.ToString() ?? string.Empty);
+        }
+
+        if (currentRecursion++ < 20)
+        {
+            value = await ResolveAsync(value);
+        }
+        else
+        {
+            currentRecursion = 0;
         }
 
         return value;
