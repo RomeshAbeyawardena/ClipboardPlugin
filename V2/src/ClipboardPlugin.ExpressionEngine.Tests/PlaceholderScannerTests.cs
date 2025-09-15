@@ -99,5 +99,15 @@ public class PlaceholderScannerTests
         var results = scanner.GetPlaceholderExpressions(target, '{', '}');
         Assert.That(results.Count(), Is.EqualTo(10000));
     }
+
+    [Test]
+    public void Test()
+    {
+        var results = scanner.GetPlaceholderExpressions("{app} v{version}", '{', '}');
+
+        Assert.That(results.Count(), Is.EqualTo(2));
+        Assert.That(results.FirstOrDefault().Item2, Is.EqualTo("app"));
+        Assert.That(results.ElementAt(1).Item2, Is.EqualTo("version"));
+    }
 }
 

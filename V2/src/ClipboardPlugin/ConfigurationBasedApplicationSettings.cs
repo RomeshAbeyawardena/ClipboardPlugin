@@ -12,4 +12,5 @@ internal class ConfigurationBasedApplicationSettings : IApplicationSettings
     public required IEnumerable<char> KeyValueSeparators { get; set; }
     public char StartPlaceholder { get; set; }
     public char EndPlaceholder { get; set; }
+    public int? RecursionLevel { get; set; }
 }
